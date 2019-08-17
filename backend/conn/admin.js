@@ -19,7 +19,7 @@ module.exports = {
   get: function(req, res) {
     //console.log(req);
 
-    connection.query(`select * from mobil`, function(err, results, fields) {
+    connection.query(`select * from mobil`, function(err, results) {
       //console.log(err);
       console.log(results);
       //console.log(fields);

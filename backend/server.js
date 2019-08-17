@@ -17,6 +17,16 @@ const validator = require('express-joi-validation').createValidator({});
 const admin = require('./conn/admin');
 
 //Express Route
+//login and regis
+Route.get('/login', function(req, res) {
+  res.json({ hello: 'world' });
+});
+Route.post('/login', function(req, res) {
+  res.json({ hello: 'world' });
+});
+Route.post('/register', function(req, res) {
+  res.json({ hello: 'world' });
+});
 //untuk mobil
 Route.get('/mobil', function(req, res) {
   admin.get(req, res);
@@ -126,4 +136,4 @@ app.use(
 
 app.use('/api', Route);
 app.use('/assets', express.static('assets'));
-app.listen(PORT, () => console.log(`Example app listening on port ${PORT}`));
+app.listen(PORT, () => console.log(`app listening on port ${PORT}`));
