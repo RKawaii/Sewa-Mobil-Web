@@ -10,11 +10,12 @@ const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-const Joi = require('@hapi/joi');
 const validator = require('express-joi-validation').createValidator({});
+const schema = require('./schema/schema');
 
 //mysql connection
 const admin = require('./conn/admin');
+const user = require('./conn/user');
 
 //Express Route
 //login and regis
@@ -24,89 +25,82 @@ Route.get('/login', function(req, res) {
 Route.post('/login', function(req, res) {
   res.json({ hello: 'world' });
 });
-Route.post('/register', function(req, res) {
-  res.json({ hello: 'world' });
-});
+
 //untuk mobil
 Route.get('/mobil', function(req, res) {
   admin.get(req, res);
 });
-Route.post('/mobil', function(req, res) {
+Route.post('/mobil', validator.body(schema.mobil), function(req, res) {
   res.json({ hello: 'world' });
 });
-Route.put('/mobil', function(req, res) {
+Route.put('/mobil', validator.body(schema.mobil), function(req, res) {
   res.json({ hello: 'world' });
 });
-Route.delete('/mobil', function(req, res) {
-  res.json({ hello: 'world' });
-});
-//untuk sewa
-Route.get('/sewa', function(req, res) {
-  res.json({ hello: 'world' });
-});
-Route.post('/sewa', function(req, res) {
-  res.json({ hello: 'world' });
-});
-Route.put('/sewa', function(req, res) {
-  res.json({ hello: 'world' });
-});
-Route.delete('/sewa', function(req, res) {
+Route.delete('/mobil', validator.body(schema.mobil), function(req, res) {
   res.json({ hello: 'world' });
 });
 
-//untuk pelaggan
-Route.get('/pelanggan', function(req, res) {
+//untuk sewa
+Route.get('/sewa', validator.body(schema.sewa), function(req, res) {
   res.json({ hello: 'world' });
 });
-Route.post('/pelanggan', function(req, res) {
+Route.post('/sewa', validator.body(schema.sewa), function(req, res) {
   res.json({ hello: 'world' });
 });
-Route.put('/pelanggan', function(req, res) {
+Route.put('/sewa', validator.body(schema.sewa), function(req, res) {
   res.json({ hello: 'world' });
 });
-Route.delete('/pelanggan', function(req, res) {
+Route.delete('/sewa', validator.body(schema.sewa), function(req, res) {
+  res.json({ hello: 'world' });
+});
+
+//untuk user
+Route.get('/user', validator.body(schema.user), function(req, res) {
+  res.json({ hello: 'world' });
+});
+Route.post('/user', validator.body(schema.user), function(req, res) {
+  res.json({ hello: 'world' });
+});
+Route.put('/user', validator.body(schema.user), function(req, res) {
+  res.json({ hello: 'world' });
+});
+Route.delete('/user', validator.body(schema.user), function(req, res) {
   res.json({ hello: 'world' });
 });
 
 //untuk transaksi
-Route.get('/transaksi', function(req, res) {
+Route.get('/transaksi', validator.body(schema.transaksi), function(req, res) {
   res.json({ hello: 'world' });
 });
-Route.post('/transaksi', function(req, res) {
+Route.post('/transaksi', validator.body(schema.transaksi), function(req, res) {
   res.json({ hello: 'world' });
 });
-Route.put('/transaksi', function(req, res) {
-  res.json({ hello: 'world' });
-});
-Route.delete('/transaksi', function(req, res) {
+Route.delete('/transaksi', validator.body(schema.transaksi), function(
+  req,
+  res
+) {
   res.json({ hello: 'world' });
 });
 
 //untuk staff
-Route.get('/staff', function(req, res) {
+Route.get('/staff', validator.body(schema.transaksi), function(req, res) {
   res.json({ hello: 'world' });
 });
-Route.post('/staff', function(req, res) {
+Route.post('/staff', validator.body(schema.transaksi), function(req, res) {
   res.json({ hello: 'world' });
 });
-Route.put('/staff', function(req, res) {
+Route.put('/staff', validator.body(schema.transaksi), function(req, res) {
   res.json({ hello: 'world' });
 });
-Route.delete('/staff', function(req, res) {
+Route.delete('/staff', validator.body(schema.transaksi), function(req, res) {
   res.json({ hello: 'world' });
 });
 
 //untuk riwayat
-Route.get('/riwayat', function(req, res) {
+Route.get('/riwayat', validator.body(schema.transaksi), function(req, res) {
   res.json({ hello: 'world' });
 });
-Route.post('/riwayat', function(req, res) {
-  res.json({ hello: 'world' });
-});
-Route.put('/riwayat', function(req, res) {
-  res.json({ hello: 'world' });
-});
-Route.delete('/riwayat', function(req, res) {
+Route.post('/riwayat', validator.body(schema.transaksi), function(req, res) {
   res.json({ hello: 'world' });
 });
 
@@ -118,6 +112,7 @@ Route.post('/mobil', validator.body(test), function(req, res) {
   res.json({ hello: 'world' });
 });
 */
+
 //init express
 
 app.use(bodyParser.json());

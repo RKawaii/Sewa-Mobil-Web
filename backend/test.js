@@ -7,14 +7,15 @@ const connection = mysql.createConnection({
   host: 'localhost',
   user: 'roots',
   password: '',
-  database: 'arphat'
+  database: ''
 });
 
 connection.connect(function(err) {
-  if (err) throw err;
-  else console.log('admin connection to mysql established');
+  if (err) console.log(err, 'cant establish connection to mysql');
+  else console.log('user connection to mysql established');
 });
+let str = 'Select * from user';
 
-module.exports = {
-  add: (req, res) => {}
-};
+let stringS = connection.escape(str);
+
+console.log(stringS);
