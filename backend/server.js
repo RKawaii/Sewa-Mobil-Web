@@ -31,7 +31,7 @@ Route.get('/mobil', function(req, res) {
   admin.get(req, res);
 });
 Route.post('/mobil', validator.body(schema.mobil), function(req, res) {
-  res.json({ hello: 'world' });
+  admin.add(req, res);
 });
 Route.put('/mobil', validator.body(schema.mobil), function(req, res) {
   res.json({ hello: 'world' });
@@ -41,8 +41,8 @@ Route.delete('/mobil', validator.body(schema.mobil), function(req, res) {
 });
 
 //untuk sewa
-Route.get('/sewa', validator.body(schema.sewa), function(req, res) {
-  res.json({ hello: 'world' });
+Route.get('/sewa', function(req, res) {
+  admin.get(req, res);
 });
 Route.post('/sewa', validator.body(schema.sewa), function(req, res) {
   res.json({ hello: 'world' });
@@ -55,8 +55,8 @@ Route.delete('/sewa', validator.body(schema.sewa), function(req, res) {
 });
 
 //untuk user
-Route.get('/user', validator.body(schema.user), function(req, res) {
-  res.json({ hello: 'world' });
+Route.get('/user', function(req, res) {
+  admin.get(req, res);
 });
 Route.post('/user', validator.body(schema.user), function(req, res) {
   res.json({ hello: 'world' });
@@ -69,8 +69,8 @@ Route.delete('/user', validator.body(schema.user), function(req, res) {
 });
 
 //untuk transaksi
-Route.get('/transaksi', validator.body(schema.transaksi), function(req, res) {
-  res.json({ hello: 'world' });
+Route.get('/transaksi', function(req, res) {
+  admin.get(req, res);
 });
 Route.post('/transaksi', validator.body(schema.transaksi), function(req, res) {
   res.json({ hello: 'world' });
@@ -83,8 +83,8 @@ Route.delete('/transaksi', validator.body(schema.transaksi), function(
 });
 
 //untuk staff
-Route.get('/staff', validator.body(schema.transaksi), function(req, res) {
-  res.json({ hello: 'world' });
+Route.get('/staff', function(req, res) {
+  admin.get(req, res);
 });
 Route.post('/staff', validator.body(schema.transaksi), function(req, res) {
   res.json({ hello: 'world' });
@@ -97,21 +97,12 @@ Route.delete('/staff', validator.body(schema.transaksi), function(req, res) {
 });
 
 //untuk riwayat
-Route.get('/riwayat', validator.body(schema.transaksi), function(req, res) {
-  res.json({ hello: 'world' });
+Route.get('/riwayat', function(req, res) {
+  admin.get(req, res);
 });
 Route.post('/riwayat', validator.body(schema.transaksi), function(req, res) {
   res.json({ hello: 'world' });
 });
-
-/* buat validasi data nanti
-const test = Joi.object({
-  test: Joi.string().required()
-});
-Route.post('/mobil', validator.body(test), function(req, res) {
-  res.json({ hello: 'world' });
-});
-*/
 
 //init express
 
@@ -129,6 +120,6 @@ app.use(
   })
 );
 
-app.use('/api', Route);
-app.use('/assets', express.static('assets'));
+app.use('/arphat/api', Route);
+app.use('/arphat/assets', express.static('assets'));
 app.listen(PORT, () => console.log(`app listening on port ${PORT}`));
