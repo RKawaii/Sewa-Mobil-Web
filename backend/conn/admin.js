@@ -16,13 +16,35 @@ connection.connect(function(err) {
 });
 
 module.exports = {
+  login: (req, res) => {
+    const { body } = req;
+    if (body.role === 'admin') {
+      connection.execute(
+        'SELECT * FROM admin where username=? and password=?',
+        [body.username, body.password],
+        (err, results) => {
+          if (err) {
+            res.sendStatus(500);
+            console.log(err);
+          } else {
+            if (results.length !== 0) {
+              req.session.role = 'admin';
+              req.session.user_id = results.id;
+              req.session.islogged = true;
+              res.sendStatus(200);
+            } else res.sendStatus(404);
+          }
+        }
+      );
+    }
+  },
   get: (req, res) => {
     const { path } = req.route;
     let thru = false;
     let table = '';
     switch (path) {
       case '/mobil':
-        table = `mobil`;
+        table = 'mobil';
         thru = true;
         break;
       case '/sewa':
@@ -49,8 +71,10 @@ module.exports = {
         thru = false;
         break;
     }
+
+    const sql = `SELECT * FROM ${table}`;
     if (thru) {
-      connection.execute(`SELECT * FROM `, (err, results) => {
+      connection.query(sql, (err, results) => {
         if (err) {
           res.sendStatus(500);
           console.log(err);

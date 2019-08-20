@@ -164,11 +164,32 @@ const user = joi.object({
       return '400';
     })
 });
+const login = joi.object({
+  role: joi
+    .string()
+    .required()
+    .error(() => {
+      return '400';
+    }),
+  username: joi
+    .string()
+    .required()
+    .error(() => {
+      return '400';
+    }),
+  password: joi
+    .string()
+    .required()
+    .error(() => {
+      return '400';
+    })
+});
 module.exports = {
   mobil: mobil,
   staff: staff,
   riwayat: riwayat,
   sewa: sewa,
   transaksi: transaksi,
-  user: user
+  user: user,
+  login: login
 };
