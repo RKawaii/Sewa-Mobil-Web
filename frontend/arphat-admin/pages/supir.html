@@ -39,7 +39,7 @@
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
                     <a class="nav-item nav-link" href="../index.html">Beranda</a>
-                    <a class="nav-item nav-link active" href="pelanggan.html">Data Pelanggan</a>
+                    <a class="nav-item nav-link" href="pelanggan.html">Data Pelanggan</a>
                     <a class="nav-item nav-link" href="mobil.html">Data Mobil</a>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button"
@@ -53,7 +53,7 @@
                         </div>
                     </li>
                     <a class="nav-item nav-link" href="staff.html">Data Staff</a>
-                    <a class="nav-item nav-link" href="supir.html">Data Supir</a>
+                    <a class="nav-item nav-link active" href="supir.html">Data Supir</a>
 
                 </div>
             </div>
@@ -63,7 +63,7 @@
     <!-- content -->
     <section>
         <div class="container">
-            <h3 class="mt-5">DATA PELANGGAN</h3>
+            <h3 class="mt-5">DATA SUPIR</h3>
             <!-- field search -->
             <div class="row mt-3">
                 <div class="col-md-6">
@@ -81,10 +81,10 @@
                 <div class="col-md-6">
                     <a href="../index.html" class="btn btn-secondary float-right"><i class="fas fa-undo"></i>
                         Kembali</a>
-                    <a href="../form/tambah-pelanggan.html" class="btn btn-primary float-right mr-3"><i
+                    <a href="../form/tambah-supir.html" class="btn btn-primary float-right mr-3"><i
                             class="fas fa-plus"></i>
                         Tambah
-                        Pelanggan</a>
+                        Supir</a>
                 </div>
             </div>
             <!-- tabel -->
@@ -99,16 +99,18 @@
                                     <th scope="col">Nama</th>
                                     <th scope="col">Alamat</th>
                                     <th scope="col">Telepon</th>
+                                    <th scope="col">Status</th>
                                     <th scope="col">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <th scope="row">1</th>
-                                    <td>PL101</td>
-                                    <td>Mathias</td>
+                                    <td>SP101</td>
+                                    <td>Andi</td>
                                     <td>Kelapa Gading</td>
-                                    <td>08999000697</td>
+                                    <td>08999758</td>
+                                    <td>Sedang Dipakai</td>
                                     <td>
                                         <button type="button" class="btn btn-warning" data-toggle="modal"
                                             data-target="#modalUbah">
@@ -119,12 +121,14 @@
                                 </tr>
                                 <tr>
                                     <th scope="row">2</th>
-                                    <td>PL102</td>
-                                    <td>Alvin</td>
-                                    <td>Bekasi</td>
-                                    <td>08999000112</td>
+                                    <td>SP102</td>
+                                    <td>Daniel</td>
+                                    <td>Pulomas</td>
+                                    <td>08999668</td>
+                                    <td>Tidak Dipakai</td>
                                     <td>
-                                        <button type="button" class="btn btn-warning">
+                                        <button type="button" class="btn btn-warning" data-toggle="modal"
+                                            data-target="#modalUbah">
                                             <i class="fas fa-edit"></i> Ubah
                                         </button>
                                         <a href="" class="btn btn-danger"><i class="fas fa-trash"></i> Hapus</a>
@@ -155,7 +159,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Form Ubah Pelanggan</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Form Ubah Supir</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -165,11 +169,11 @@
                     <form action="" method="">
                         <div class="form-group">
                             <label for="kode">Kode</label>
-                            <input type="text" name="kode" class="form-control" id="kode" value="PL101">
+                            <input type="text" name="kode" class="form-control" id="kode" value="SP101">
                         </div>
                         <div class="form-group">
                             <label for="nama">Nama</label>
-                            <input type="text" name="nama" class="form-control" id="nama" value="Mathias">
+                            <input type="text" name="nama" class="form-control" id="nama" value="Andi">
                         </div>
                         <div class="form-group">
                             <label for="alamat">Alamat</label>
@@ -177,7 +181,14 @@
                         </div>
                         <div class="form-group">
                             <label for="telepon">Telepon</label>
-                            <input type="number" name="telepon" class="form-control" id="telepon" value="08999000697">
+                            <input type="number" name="telepon" class="form-control" id="telepon" value="08999758">
+                        </div>
+                        <div class="form-group">
+                            <label for="status">Status</label>
+                            <select class="form-control" id="status" name="status">
+                                <option value="0">Tidak Dipakai</option>
+                                <option value="1" selected>Sedang Dipakai</option>
+                            </select>
                         </div>
                 </div>
                 <div class="modal-footer">

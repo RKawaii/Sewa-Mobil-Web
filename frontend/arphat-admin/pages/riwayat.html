@@ -42,14 +42,14 @@
                     <a class="nav-item nav-link" href="pelanggan.html">Data Pelanggan</a>
                     <a class="nav-item nav-link" href="mobil.html">Data Mobil</a>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button"
+                        <a class="nav-link dropdown-toggle active" href="" id="navbarDropdown" role="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Penyewaan
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="sewa.html">Sewa</a>
                             <a class="dropdown-item" href="transaksi.html">Transaksi</a>
-                            <a class="dropdown-item" href="riwayat.html">Riwayat</a>
+                            <a class="dropdown-item active" href="riwayat.html">Riwayat</a>
                         </div>
                     </li>
                     <a class="nav-item nav-link" href="staff.html">Data Staff</a>
@@ -63,23 +63,65 @@
     <!-- content -->
     <section>
         <div class="container">
-            <div class="row justify-content-center mt-5">
-                <!-- form -->
-                <div class="col-md-12">
-                    <div class="card mb-5">
-                        <div class="card-header text-center">
-                            <img src="../assets/images/dummy.jpg" alt="User Profile" class="img-fluid rounded-circle"
-                                width="300">
+            <h3 class="mt-5">DATA PELANGGAN</h3>
+            <!-- field search -->
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <form action="" method="">
+                        <div class="input-group mb-3">
+                            <div class="input-group mb-3">
+                                <input type="text" name="keyword" class="form-control" placeholder="Kata Kunci . . .">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="submit" id="button-addon2">Pencarian</button>
+                                </div>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <h3 class="card-title">Nama : Mathias Yeremia Aryadi</h3>
-                            <p class="card-text">Terdaftar tanggal 19 Agustus 2019</p>
-                            <h3 class="card-text mb-5">Username: mathiasy123</h3>
-                            <a href="../form/ubah-profil.html" class="btn btn-lg btn-primary btn-block"><i
-                                    class="fas fa-edit"></i> GANTI PROFIL</a>
-                        </div>
+                    </form>
+                </div>
+                <div class="col-md-6">
+                    <a href="../index.html" class="btn btn-secondary float-right"><i class="fas fa-undo"></i>
+                        Kembali</a>
+                    <a href="../form/tambah-pelanggan.html" class="btn btn-danger float-right mr-3"><i
+                            class="fas fa-trash"></i>
+                        Hapus
+                        Semua</a>
+                </div>
+            </div>
+            <!-- tabel -->
+            <div class="row mt-3">
+                <div class="col-md-12 col-sm-12">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Nomor</th>
+                                    <th scope="col">Kode</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>TR101</td>
+                                    <td>Selesai</td>
+                                    <td>
+                                        <a href="" class="btn btn-danger"><i class="fas fa-trash"></i> Hapus</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-
+                    <!-- pagination -->
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div>

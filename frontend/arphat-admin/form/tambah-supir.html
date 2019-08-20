@@ -39,22 +39,21 @@
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
                     <a class="nav-item nav-link" href="../index.html">Beranda</a>
-                    <a class="nav-item nav-link" href="pelanggan.html">Data Pelanggan</a>
-                    <a class="nav-item nav-link" href="mobil.html">Data Mobil</a>
+                    <a class="nav-item nav-link" href="../pages/pelanggan.html">Data Pelanggan</a>
+                    <a class="nav-item nav-link" href="../pages/mobil.html">Data Mobil</a>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Penyewaan
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="sewa.html">Sewa</a>
-                            <a class="dropdown-item" href="transaksi.html">Transaksi</a>
-                            <a class="dropdown-item" href="riwayat.html">Riwayat</a>
+                            <a class="dropdown-item" href="../pages/sewa.html">Sewa</a>
+                            <a class="dropdown-item" href="../pages/transaksi.html">Transaksi</a>
+                            <a class="dropdown-item" href="../pages/riwayat.html">Riwayat</a>
                         </div>
                     </li>
                     <a class="nav-item nav-link" href="staff.html">Data Staff</a>
-                    <a class="nav-item nav-link" href="supir.html">Data Supir</a>
-
+                    <a class="nav-item nav-link active" href="../pages/supir.html">Data Supir</a>
                 </div>
             </div>
         </div>
@@ -63,23 +62,53 @@
     <!-- content -->
     <section>
         <div class="container">
-            <div class="row justify-content-center mt-5">
-                <!-- form -->
-                <div class="col-md-12">
+            <div class="row mt-5">
+                <div class="col-md-12 col-sm-12">
                     <div class="card mb-5">
-                        <div class="card-header text-center">
-                            <img src="../assets/images/dummy.jpg" alt="User Profile" class="img-fluid rounded-circle"
-                                width="300">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-8 col-sm-12">
+                                    <h3 class="text-left">FORM TAMBAH SUPIR</h3>
+                                </div>
+                                <div class="col-md-4 col-sm-12">
+                                    <a href="../pages/supir.html" class="btn btn-secondary float-right"><i
+                                            class="fas fa-undo"></i>
+                                        Kembali</a>
+                                </div>
+                            </div>
+
                         </div>
                         <div class="card-body">
-                            <h3 class="card-title">Nama : Mathias Yeremia Aryadi</h3>
-                            <p class="card-text">Terdaftar tanggal 19 Agustus 2019</p>
-                            <h3 class="card-text mb-5">Username: mathiasy123</h3>
-                            <a href="../form/ubah-profil.html" class="btn btn-lg btn-primary btn-block"><i
-                                    class="fas fa-edit"></i> GANTI PROFIL</a>
+                            <!-- form -->
+                            <form action="" method="">
+                                <div class="form-group">
+                                    <label for="kode">Kode</label>
+                                    <input type="text" name="kode" class="form-control" id="kode">
+                                </div>
+                                <div class="form-group">
+                                    <label for="nama">Nama</label>
+                                    <input type="text" name="nama" class="form-control" id="nama">
+                                </div>
+                                <div class="form-group">
+                                    <label for="alamat">Alamat</label>
+                                    <textarea name="alamat" class="form-control" id="alamat" rows="3"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="telepon">Telepon</label>
+                                    <input type="number" name="telepon" class="form-control" id="telepon">
+                                </div>
+                                <div class="form-group">
+                                    <label for="status">Status</label>
+                                    <select class="form-control" id="status" name="status">
+                                        <option value="0">Tidak Dipakai</option>
+                                        <option value="1">Sedang Dipakai</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="float-right btn btn-success"><i class="fas fa-plus"></i>
+                                    Tambah</button>
+                            </form>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>

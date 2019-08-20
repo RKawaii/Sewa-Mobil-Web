@@ -39,7 +39,7 @@
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
                     <a class="nav-item nav-link" href="../index.html">Beranda</a>
-                    <a class="nav-item nav-link active" href="pelanggan.html">Data Pelanggan</a>
+                    <a class="nav-item nav-link" href="pelanggan.html">Data Pelanggan</a>
                     <a class="nav-item nav-link" href="mobil.html">Data Mobil</a>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button"
@@ -52,7 +52,7 @@
                             <a class="dropdown-item" href="riwayat.html">Riwayat</a>
                         </div>
                     </li>
-                    <a class="nav-item nav-link" href="staff.html">Data Staff</a>
+                    <a class="nav-item nav-link active" href="staff.html">Data Staff</a>
                     <a class="nav-item nav-link" href="supir.html">Data Supir</a>
 
                 </div>
@@ -63,7 +63,7 @@
     <!-- content -->
     <section>
         <div class="container">
-            <h3 class="mt-5">DATA PELANGGAN</h3>
+            <h3 class="mt-5">DATA STAFF</h3>
             <!-- field search -->
             <div class="row mt-3">
                 <div class="col-md-6">
@@ -81,10 +81,10 @@
                 <div class="col-md-6">
                     <a href="../index.html" class="btn btn-secondary float-right"><i class="fas fa-undo"></i>
                         Kembali</a>
-                    <a href="../form/tambah-pelanggan.html" class="btn btn-primary float-right mr-3"><i
+                    <a href="../form/tambah-staff.html" class="btn btn-primary float-right mr-3"><i
                             class="fas fa-plus"></i>
                         Tambah
-                        Pelanggan</a>
+                        Staff</a>
                 </div>
             </div>
             <!-- tabel -->
@@ -97,18 +97,16 @@
                                     <th scope="col">Nomor</th>
                                     <th scope="col">Kode</th>
                                     <th scope="col">Nama</th>
-                                    <th scope="col">Alamat</th>
-                                    <th scope="col">Telepon</th>
+                                    <th scope="col">Usrename</th>
                                     <th scope="col">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <th scope="row">1</th>
-                                    <td>PL101</td>
-                                    <td>Mathias</td>
-                                    <td>Kelapa Gading</td>
-                                    <td>08999000697</td>
+                                    <td>ST101</td>
+                                    <td>Tini Sumiardi</td>
+                                    <td>tini123</td>
                                     <td>
                                         <button type="button" class="btn btn-warning" data-toggle="modal"
                                             data-target="#modalUbah">
@@ -119,12 +117,12 @@
                                 </tr>
                                 <tr>
                                     <th scope="row">2</th>
-                                    <td>PL102</td>
-                                    <td>Alvin</td>
-                                    <td>Bekasi</td>
-                                    <td>08999000112</td>
+                                    <td>ST102</td>
+                                    <td>Alex</td>
+                                    <td>alex123</td>
                                     <td>
-                                        <button type="button" class="btn btn-warning">
+                                        <button type="button" class="btn btn-warning" data-toggle="modal"
+                                            data-target="#modalUbah">
                                             <i class="fas fa-edit"></i> Ubah
                                         </button>
                                         <a href="" class="btn btn-danger"><i class="fas fa-trash"></i> Hapus</a>
@@ -155,7 +153,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Form Ubah Pelanggan</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Form Ubah Staff</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -165,19 +163,24 @@
                     <form action="" method="">
                         <div class="form-group">
                             <label for="kode">Kode</label>
-                            <input type="text" name="kode" class="form-control" id="kode" value="PL101">
+                            <input type="text" name="kode" class="form-control" id="kode" value="ST101">
                         </div>
                         <div class="form-group">
                             <label for="nama">Nama</label>
-                            <input type="text" name="nama" class="form-control" id="nama" value="Mathias">
+                            <input type="text" name="nama" class="form-control" id="nama" value="Tini Sumiardi">
                         </div>
                         <div class="form-group">
-                            <label for="alamat">Alamat</label>
-                            <textarea name="alamat" class="form-control" id="alamat" rows="3">Kelapa Gading</textarea>
+                            <label for="username">Username</label>
+                            <input type="text" name="username" class="form-control" id="username" value="tini123">
                         </div>
                         <div class="form-group">
-                            <label for="telepon">Telepon</label>
-                            <input type="number" name="telepon" class="form-control" id="telepon" value="08999000697">
+                            <label for="password">Password</label>
+                            <input type="password" name="password" class="form-control" id="password" value="tinis123">
+                        </div>
+                        <div class="form-group">
+                            <label for="konfirmasi-password">Konfirmasi Password</label>
+                            <input type="password" name="konfirmasi-password" class="form-control"
+                                id="konfirmasi-password">
                         </div>
                 </div>
                 <div class="modal-footer">
