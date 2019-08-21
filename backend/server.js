@@ -21,7 +21,12 @@ const admin = require('./conn/admin');
 //Express Route
 //login and regis
 Route.get('/login', function(req, res) {
-  res.send(req.session.role);
+  if (req.session.islogged === true) {
+    res.json({
+      role: req.session.role,
+      user_id: req.session.user_id
+    });
+  } else res.send('not logged in 401');
 });
 Route.post('/login', validator.body(schema.login), function(req, res) {
   admin.login(req, res);

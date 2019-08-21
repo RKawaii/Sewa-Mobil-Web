@@ -61,6 +61,16 @@ list end point untuk memakai endpoint harus terlebih dahulu melakukan post reque
 
 bila tidak sesuai schema maka akan ditolak
 
+0. login schema
+
+```
+{
+  role: 'string (admin/staff)',
+  username: 'string',
+  password: 'string'
+}
+```
+
 1. mobil post
 
 ```

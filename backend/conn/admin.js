@@ -1,6 +1,5 @@
 const mysql = require('mysql2');
-
-//var uuid = require('uuid/v4');
+const crypto = require('crypto');
 
 //local mysql db connection
 const connection = mysql.createConnection({
@@ -18,25 +17,38 @@ connection.connect(function(err) {
 module.exports = {
   login: (req, res) => {
     const { body } = req;
-    if (body.role === 'admin') {
-      connection.execute(
-        'SELECT * FROM admin where username=? and password=?',
-        [body.username, body.password],
-        (err, results) => {
-          if (err) {
-            res.sendStatus(500);
-            console.log(err);
-          } else {
-            if (results.length !== 0) {
-              req.session.role = 'admin';
-              req.session.user_id = results.id;
-              req.session.islogged = true;
-              res.sendStatus(200);
+
+    connection.execute(
+      'SELECT password FROM admin where username=?',
+      [body.username],
+      (err, results) => {
+        if (err) {
+          res.sendStatus(404);
+        } else {
+          if (results) {
+            let hash = crypto
+              .createHash('md5')
+              .update(body.password)
+              .digest('hex');
+            results = results[0];
+
+            if (hash === results.password) {
+              if (err) {
+                res.sendStatus(500);
+                console.log(err);
+              } else {
+                req.session.role = 'admin';
+                req.session.user_id = results.id;
+                req.session.islogged = true;
+                res.sendStatus(200);
+              }
             } else res.sendStatus(404);
+          } else {
+            res.sendStatus(404);
           }
         }
-      );
-    }
+      }
+    );
   },
   get: (req, res) => {
     const { path } = req.route;
