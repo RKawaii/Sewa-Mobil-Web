@@ -28,9 +28,9 @@
     <!-- navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
-            <a class="navbar-brand" href="../pages/profil.html">
+            <a class="navbar-brand" href="profil.html">
                 <img src="../assets/images/dummy.jpg" alt="Dummy Picture" class="img-fluid rounded-circle mr-3"
-                    width="50" data-toggle="tooltip" data-placement="bottom" title="Mathias Yeremia Aryadi (Admin)">
+                    width="50" data-toggle="tooltip" data-placement="bottom" title="Mathias Yeremia Aryadi (Staff)">
             </a>
             <button class=" navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,22 +39,9 @@
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
                     <a class="nav-item nav-link" href="../index.html">Beranda</a>
-                    <a class="nav-item nav-link" href="pelanggan.html">Data Pelanggan</a>
-                    <a class="nav-item nav-link" href="mobil.html">Data Mobil</a>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Penyewaan
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="sewa.html">Sewa</a>
-                            <a class="dropdown-item" href="transaksi.html">Transaksi</a>
-                            <a class="dropdown-item" href="riwayat.html">Riwayat</a>
-                        </div>
-                    </li>
-                    <a class="nav-item nav-link active" href="staff.html">Data Staff</a>
-                    <a class="nav-item nav-link" href="supir.html">Data Supir</a>
-
+                    <a class="nav-item nav-link" href="sewa.html">Sewa</a>
+                    <a class="nav-item nav-link active" href="transaksi.html">Transaksi</a>
+                    <a class="nav-item nav-link" href="riwayat.html">Riwayat</a>
                 </div>
             </div>
         </div>
@@ -63,7 +50,7 @@
     <!-- content -->
     <section>
         <div class="container">
-            <h3 class="mt-5">DATA STAFF</h3>
+            <h3 class="mt-5">DATA SEWA</h3>
             <!-- field search -->
             <div class="row mt-3">
                 <div class="col-md-6">
@@ -81,56 +68,51 @@
                 <div class="col-md-6">
                     <a href="../index.html" class="btn btn-secondary float-right"><i class="fas fa-undo"></i>
                         Kembali</a>
-                    <a href="../form/tambah-staff.html" class="btn btn-primary float-right mr-3"><i
-                            class="fas fa-plus"></i>
-                        Tambah
-                        Staff</a>
                 </div>
             </div>
             <!-- tabel -->
             <div class="row mt-3">
                 <div class="col-md-12 col-sm-12">
                     <div class="table-responsive">
+                        <p class="text-success">Hijau = Sudah Bayar</p>
+                        <p class="text-danger">Merah = Belum Bayar</p>
                         <table class="table">
                             <thead>
                                 <tr>
                                     <th scope="col">Nomor</th>
-                                    <th scope="col">Kode</th>
-                                    <th scope="col">Nama</th>
-                                    <th scope="col">Usrename</th>
+                                    <th scope="col">Kode Transaksi</th>
+                                    <th scope="col">Kode Sewa</th>
                                     <th scope="col">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <tr class="text-success">
                                     <th scope="row">1</th>
-                                    <td>ST101</td>
-                                    <td>Tini Sumiardi</td>
-                                    <td>tini123</td>
+                                    <td>TR101</td>
+                                    <td>SW101</td>
                                     <td>
-                                        <button type="button" class="btn btn-warning" data-toggle="modal"
-                                            data-target="#modalUbah">
-                                            <i class="fas fa-edit"></i> Ubah
+                                        <button type="button" class="btn btn-info" data-toggle="modal"
+                                            data-target="#modalDetail1">
+                                            <i class="fas fa-info"></i> Detail
                                         </button>
-                                        <button type="button" class="btn btn-danger" data-toggle="modal"
-                                            data-target="#modalKonfirmasi">
-                                            <i class="fas fa-edit"></i> Hapus
+                                        <button type="button" class="btn btn-success" data-toggle="modal"
+                                            data-target="#modalValidasi">
+                                            <i class="fas fa-check"></i> Validasi
                                         </button>
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr class="text-danger">
                                     <th scope="row">2</th>
-                                    <td>ST102</td>
-                                    <td>Alex</td>
-                                    <td>alex123</td>
+                                    <td>TR102</td>
+                                    <td>SW102</td>
                                     <td>
-                                        <button type="button" class="btn btn-warning" data-toggle="modal"
-                                            data-target="#modalUbah">
-                                            <i class="fas fa-edit"></i> Ubah
+                                        <button type="button" class="btn btn-info" data-toggle="modal"
+                                            data-target="#modalDetail2">
+                                            <i class="fas fa-info"></i> Detail
                                         </button>
-                                        <button type="button" class="btn btn-danger" data-toggle="modal"
-                                            data-target="#modalKonfirmasi">
-                                            <i class="fas fa-edit"></i> Hapus
+                                        <button type="button" class="btn btn-success disabled" data-toggle="modal"
+                                            data-target="#modalValidasi">
+                                            <i class="fas fa-check"></i> Validasi
                                         </button>
                                     </td>
                                 </tr>
@@ -152,60 +134,13 @@
         </div>
     </section>
 
-
-    <!-- modal ubah -->
-    <div class="modal fade" id="modalUbah" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <!-- modal detail 1 -->
+    <div class="modal fade" id="modalDetail1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Form Ubah Staff</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <!-- form -->
-                    <form action="" method="">
-                        <div class="form-group">
-                            <label for="kode">Kode</label>
-                            <input type="text" name="kode" class="form-control" id="kode" value="ST101">
-                        </div>
-                        <div class="form-group">
-                            <label for="nama">Nama</label>
-                            <input type="text" name="nama" class="form-control" id="nama" value="Tini Sumiardi">
-                        </div>
-                        <div class="form-group">
-                            <label for="username">Username</label>
-                            <input type="text" name="username" class="form-control" id="username" value="tini123">
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="password" name="password" class="form-control" id="password" value="tinis123">
-                        </div>
-                        <div class="form-group">
-                            <label for="konfirmasi-password">Konfirmasi Password</label>
-                            <input type="password" name="konfirmasi-password" class="form-control"
-                                id="konfirmasi-password">
-                        </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-undo"></i>
-                        Kembali</button>
-                    <button type="button" class="btn btn-success"><i class="fas fa-edit"></i> Ubah</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- modal konfirmasi -->
-    <div class="modal fade" id="modalKonfirmasi" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Konfirmasi Hapus</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Detail Transaksi</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -213,7 +148,112 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12 col-sm-12">
-                            <h6>Apakah Anda yakin ingin menghapus data ini?</h6>
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Struk Tagihan</h5>
+                                    <p class="card-text">Kode Sewa : SW101</p>
+                                    <p class="card-text">Kode Transaksi : TR101</p>
+                                    <p class="card-text">Rincian Biaya : </p>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Nomor</th>
+                                                <th scope="col">Keterangan</th>
+                                                <th scope="col">Biaya</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">1</th>
+                                                <td>12 jam sewa</td>
+                                                <td>Rp 350.000</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <p class="card-text"><strong>Total : Rp 350.000</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-undo"></i>
+                        Kembali</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- modal detail 2 -->
+    <div class="modal fade" id="modalDetail2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Detail Transaksi</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Struk Tagihan</h5>
+                                    <p class="card-text">Kode Sewa : SW102</p>
+                                    <p class="card-text">Kode Transaksi : TR102</p>
+                                    <p class="card-text">Rincian Biaya : </p>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Nomor</th>
+                                                <th scope="col">Keterangan</th>
+                                                <th scope="col">Biaya</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">1</th>
+                                                <td>8 jam sewa</td>
+                                                <td>Rp 250.000</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">2</th>
+                                                <td>Supir</td>
+                                                <td>Rp 50.000</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <p class="card-text"><strong>Total : Rp 300.000</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-undo"></i>
+                        Kembali</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- modal validasi -->
+    <div class="modal fade" id="modalValidasi" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Konfirmasi Validasi</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <h6>Apakah Anda yakin ingin melakukan validasi ini?</h6>
                         </div>
                     </div>
                 </div>

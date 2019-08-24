@@ -28,9 +28,9 @@
     <!-- navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
-            <a class="navbar-brand" href="../pages/profil.html">
+            <a class="navbar-brand" href="profil.html">
                 <img src="../assets/images/dummy.jpg" alt="Dummy Picture" class="img-fluid rounded-circle mr-3"
-                    width="50" data-toggle="tooltip" data-placement="bottom" title="Mathias Yeremia Aryadi (Admin)">
+                    width="50" data-toggle="tooltip" data-placement="bottom" title="Mathias Yeremia Aryadi (Staff)">
             </a>
             <button class=" navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,22 +39,9 @@
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
                     <a class="nav-item nav-link" href="../index.html">Beranda</a>
-                    <a class="nav-item nav-link" href="pelanggan.html">Data Pelanggan</a>
-                    <a class="nav-item nav-link" href="mobil.html">Data Mobil</a>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle active" href="" id="navbarDropdown" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Penyewaan
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="sewa.html">Sewa</a>
-                            <a class="dropdown-item" href="transaksi.html">Transaksi</a>
-                            <a class="dropdown-item active" href="riwayat.html">Riwayat</a>
-                        </div>
-                    </li>
-                    <a class="nav-item nav-link" href="staff.html">Data Staff</a>
-                    <a class="nav-item nav-link" href="supir.html">Data Supir</a>
-
+                    <a class="nav-item nav-link" href="sewa.html">Sewa</a>
+                    <a class="nav-item nav-link" href="transaksi.html">Transaksi</a>
+                    <a class="nav-item nav-link active" href="riwayat.html">Riwayat</a>
                 </div>
             </div>
         </div>
@@ -81,10 +68,6 @@
                 <div class="col-md-6">
                     <a href="../index.html" class="btn btn-secondary float-right"><i class="fas fa-undo"></i>
                         Kembali</a>
-                    <a href="../form/tambah-pelanggan.html" class="btn btn-danger float-right mr-3"><i
-                            class="fas fa-trash"></i>
-                        Hapus
-                        Semua</a>
                 </div>
             </div>
             <!-- tabel -->
@@ -97,7 +80,6 @@
                                     <th scope="col">Nomor</th>
                                     <th scope="col">Kode</th>
                                     <th scope="col">Status</th>
-                                    <th scope="col">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -105,12 +87,6 @@
                                     <th scope="row">1</th>
                                     <td>TR101</td>
                                     <td>Selesai</td>
-                                    <td>
-                                        <button type="button" class="btn btn-danger" data-toggle="modal"
-                                            data-target="#modalKonfirmasi">
-                                            <i class="fas fa-edit"></i> Hapus
-                                        </button>
-                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -129,35 +105,6 @@
             </div>
         </div>
     </section>
-
-    <!-- modal konfirmasi -->
-    <div class="modal fade" id="modalKonfirmasi" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Konfirmasi Hapus</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-12 col-sm-12">
-                            <h6>Apakah Anda yakin ingin menghapus data ini?</h6>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times"></i>
-                        Tidak</button>
-                    <button type="button" class="btn btn-success" data-dismiss="modal"><i
-                            class="fas fa-check-circle"></i>
-                        Ya</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
