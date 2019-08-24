@@ -13,10 +13,11 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const validator = require('express-joi-validation').createValidator({});
 const schema = require('./schema/schema');
+const cors = require('cors');
 
 //mysql connection
 const admin = require('./conn/admin');
-//const user = require('./conn/user');
+const user = require('./conn/user');
 
 //Express Route
 //login and regis
@@ -26,76 +27,172 @@ Route.get('/login', function(req, res) {
       role: req.session.role,
       user_id: req.session.user_id
     });
-  } else res.send('not logged in 401');
+  } else res.sendStatus(403);
 });
 Route.post('/login', validator.body(schema.login), function(req, res) {
-  admin.login(req, res);
+  if (req.body.role === 'admin') {
+    admin.login(req, res);
+  } else if (req.body.role === 'user') {
+    user.login(req, res);
+  }
 });
 
 //untuk mobil
 Route.get('/mobil', function(req, res) {
   if (req.session.islogged) {
-    admin.get(req, res);
-  } else res.sendStatus(401);
+    if (req.session.role === 'admin') {
+      admin.gets(req, res);
+    } else {
+      res.sendStatus(401);
+    }
+  } else res.sendStatus(403);
+});
+Route.get('/mobil/:id', validator.params(schema.id), function(req, res) {
+  if (req.session.islogged) {
+    if (req.session.role === 'admin') {
+      admin.get(req, res);
+    } else {
+      res.sendStatus(401);
+    }
+  } else res.sendStatus(403);
 });
 Route.post('/mobil', validator.body(schema.mobil), function(req, res) {
   if (req.session.islogged) {
-    admin.add(req, res);
-  } else res.sendStatus(401);
+    if (req.session.role === 'admin') {
+      admin.add(req, res);
+    } else {
+      res.sendStatus(401);
+    }
+  } else res.sendStatus(403);
 });
-Route.put('/mobil', validator.body(schema.mobil), function(req, res) {
-  res.json({ hello: 'world' });
-});
-Route.delete('/mobil', validator.body(schema.mobil), function(req, res) {
-  res.json({ hello: 'world' });
+Route.put(
+  '/mobil/:id',
+  validator.body(schema.mobil),
+  validator.params(schema.id),
+  function(req, res) {
+    if (req.session.islogged) {
+      if (req.session.role === 'admin') {
+        admin.upd(req, res);
+      } else {
+        res.sendStatus(401);
+      }
+    } else res.sendStatus(403);
+  }
+);
+Route.delete('/mobil/:id', function(req, res) {
+  if (req.session.islogged) {
+    if (req.session.role === 'admin') {
+      admin.del(req, res);
+    } else {
+      res.sendStatus(401);
+    }
+  } else res.sendStatus(403);
 });
 
 //untuk sewa
 Route.get('/sewa', function(req, res) {
   if (req.session.islogged) {
-    admin.get(req, res);
-  } else res.sendStatus(401);
+    if (req.session.role === 'user') {
+      user.gets(req, res);
+    } else {
+      res.sendStatus(401);
+    }
+  } else res.sendStatus(403);
+});
+Route.get('/sewa/:id', function(req, res) {
+  if (req.session.islogged) {
+    if (req.session.role === 'user') {
+      admin.get(req, res);
+    } else {
+      res.sendStatus(401);
+    }
+  } else res.sendStatus(403);
 });
 Route.post('/sewa', validator.body(schema.sewa), function(req, res) {
   if (req.session.islogged) {
-    admin.add(req, res);
-  } else res.sendStatus(401);
+    if (req.session.role === 'user') {
+      user.add(req, res);
+    } else {
+      res.sendStatus(401);
+    }
+  } else res.sendStatus(403);
 });
-Route.put('/sewa', validator.body(schema.sewa), function(req, res) {
-  res.json({ hello: 'world' });
+Route.put('/sewa/:id', validator.body(schema.sewa), function(req, res) {
+  if (req.session.islogged) {
+    if (req.session.role === 'user') {
+      user.upd(req, res);
+    } else {
+      res.sendStatus(401);
+    }
+  } else res.sendStatus(403);
 });
-Route.delete('/sewa', validator.body(schema.sewa), function(req, res) {
-  res.json({ hello: 'world' });
+Route.delete('/sewa/:id', function(req, res) {
+  if (req.session.islogged) {
+    if (req.session.role === 'admin') {
+      user.del(req, res);
+    } else {
+      res.sendStatus(401);
+    }
+  } else res.sendStatus(403);
 });
 
 //untuk user
 Route.get('/user', function(req, res) {
   if (req.session.islogged) {
-    admin.get(req, res);
-  } else res.sendStatus(401);
+    if (req.session.role === 'admin') {
+      admin.gets(req, res);
+    } else {
+      res.sendStatus(401);
+    }
+  } else res.sendStatus(403);
+});
+Route.get('/user/:id', validator.params(schema.id), function(req, res) {
+  if (req.session.islogged) {
+    if (req.session.role === 'admin') {
+      admin.get(req, res);
+    } else {
+      res.sendStatus(401);
+    }
+  } else res.sendStatus(403);
 });
 Route.post('/user', validator.body(schema.user), function(req, res) {
   if (req.session.islogged) {
-    admin.add(req, res);
-  } else res.sendStatus(401);
+    if (req.session.role === 'admin') {
+      admin.add(req, res);
+    } else {
+      res.sendStatus(401);
+    }
+  } else res.sendStatus(403);
 });
-Route.put('/user', validator.body(schema.user), function(req, res) {
-  res.json({ hello: 'world' });
+Route.put('/user/:id', validator.body(schema.user), function(req, res) {
+  if (req.session.islogged) {
+    if (req.session.role === 'admin') {
+      admin.upd(req, res);
+    } else {
+      res.sendStatus(401);
+    }
+  } else res.sendStatus(403);
 });
-Route.delete('/user', validator.body(schema.user), function(req, res) {
-  res.json({ hello: 'world' });
+Route.delete('/user/:id', validator.body(schema.user), function(req, res) {
+  if (req.session.islogged) {
+    if (req.session.role === 'admin') {
+      admin.del(req, res);
+    } else {
+      res.sendStatus(401);
+    }
+  } else res.sendStatus(403);
 });
 
 //untuk transaksi
 Route.get('/transaksi', function(req, res) {
   if (req.session.islogged) {
-    admin.get(req, res);
-  } else res.sendStatus(401);
+    admin.gets(req, res);
+  } else res.sendStatus(403);
 });
 Route.post('/transaksi', validator.body(schema.transaksi), function(req, res) {
   if (req.session.islogged) {
     admin.add(req, res);
-  } else res.sendStatus(401);
+  } else res.sendStatus(403);
 });
 Route.delete('/transaksi', validator.body(schema.transaksi), function(
   req,
@@ -107,31 +204,157 @@ Route.delete('/transaksi', validator.body(schema.transaksi), function(
 //untuk staff
 Route.get('/staff', function(req, res) {
   if (req.session.islogged) {
-    admin.get(req, res);
-  } else res.sendStatus(401);
+    if (req.session.role === 'admin') {
+      admin.gets(req, res);
+    } else {
+      res.sendStatus(401);
+    }
+  } else res.sendStatus(403);
+});
+Route.get('/staff/id', function(req, res) {
+  if (req.session.islogged) {
+    if (req.session.role === 'admin') {
+      admin.get(req, res);
+    } else {
+      res.sendStatus(401);
+    }
+  } else res.sendStatus(403);
 });
 Route.post('/staff', validator.body(schema.transaksi), function(req, res) {
   if (req.session.islogged) {
-    admin.add(req, res);
-  } else res.sendStatus(401);
+    if (req.session.role === 'admin') {
+      admin.add(req, res);
+    } else {
+      res.sendStatus(401);
+    }
+  } else res.sendStatus(403);
 });
-Route.put('/staff', validator.body(schema.transaksi), function(req, res) {
-  res.json({ hello: 'world' });
+Route.put('/staff/:id', validator.body(schema.transaksi), function(req, res) {
+  if (req.session.islogged) {
+    if (req.session.role === 'admin') {
+      admin.upd(req, res);
+    } else {
+      res.sendStatus(401);
+    }
+  } else res.sendStatus(403);
 });
-Route.delete('/staff', validator.body(schema.transaksi), function(req, res) {
-  res.json({ hello: 'world' });
+Route.delete('/staff/:id', validator.body(schema.transaksi), function(
+  req,
+  res
+) {
+  if (req.session.islogged) {
+    if (req.session.role === 'admin') {
+      admin.del(req, res);
+    } else {
+      res.sendStatus(401);
+    }
+  } else res.sendStatus(403);
 });
 
 //untuk riwayat
 Route.get('/riwayat', function(req, res) {
   if (req.session.islogged) {
-    admin.get(req, res);
-  } else res.sendStatus(401);
+    admin.gets(req, res);
+  } else res.sendStatus(403);
 });
 Route.post('/riwayat', validator.body(schema.transaksi), function(req, res) {
   if (req.session.islogged) {
     admin.add(req, res);
-  } else res.sendStatus(401);
+  } else res.sendStatus(403);
+});
+
+//untuk supir
+Route.get('/supir', function(req, res) {
+  if (req.session.islogged) {
+    if (req.session.role === 'admin') {
+      admin.gets(req, res);
+    } else {
+      res.sendStatus(401);
+    }
+  } else res.sendStatus(403);
+});
+Route.get('/supir/:id', function(req, res) {
+  if (req.session.islogged) {
+    if (req.session.role === 'admin') {
+      admin.get(req, res);
+    } else {
+      res.sendStatus(401);
+    }
+  } else res.sendStatus(403);
+});
+Route.post('/supir', validator.body(schema.mobil), function(req, res) {
+  if (req.session.islogged) {
+    if (req.session.role === 'admin') {
+      admin.add(req, res);
+    } else {
+      res.sendStatus(401);
+    }
+  } else res.sendStatus(403);
+});
+Route.put('/supir/:id', validator.body(schema.mobil), function(req, res) {
+  if (req.session.islogged) {
+    if (req.session.role === 'admin') {
+      admin.upd(req, res);
+    } else {
+      res.sendStatus(401);
+    }
+  } else res.sendStatus(403);
+});
+Route.delete('/supir/:id', function(req, res) {
+  if (req.session.islogged) {
+    if (req.session.role === 'admin') {
+      admin.del(req, res);
+    } else {
+      res.sendStatus(401);
+    }
+  } else res.sendStatus(403);
+});
+
+//untuk jenis_mobil
+Route.get('/jenis', function(req, res) {
+  if (req.session.islogged) {
+    if (req.session.role === 'admin') {
+      admin.gets(req, res);
+    } else {
+      res.sendStatus(401);
+    }
+  } else res.sendStatus(403);
+});
+Route.get('/jenis/:id', function(req, res) {
+  if (req.session.islogged) {
+    if (req.session.role === 'admin') {
+      admin.get(req, res);
+    } else {
+      res.sendStatus(401);
+    }
+  } else res.sendStatus(403);
+});
+Route.post('/jenis', validator.body(schema.mobil), function(req, res) {
+  if (req.session.islogged) {
+    if (req.session.role === 'admin') {
+      admin.add(req, res);
+    } else {
+      res.sendStatus(401);
+    }
+  } else res.sendStatus(403);
+});
+Route.put('/jenis/:id', validator.body(schema.mobil), function(req, res) {
+  if (req.session.islogged) {
+    if (req.session.role === 'admin') {
+      admin.upd(req, res);
+    } else {
+      res.sendStatus(401);
+    }
+  } else res.sendStatus(403);
+});
+Route.delete('/jenis/:id', function(req, res) {
+  if (req.session.islogged) {
+    if (req.session.role === 'admin') {
+      admin.del(req, res);
+    } else {
+      res.sendStatus(401);
+    }
+  } else res.sendStatus(403);
 });
 
 //init express
@@ -141,6 +364,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(helmet());
 app.use(morgan('dev'));
 app.use(cookieParser());
+app.use(cors());
 
 app.use(
   session({
@@ -151,6 +375,6 @@ app.use(
   })
 );
 
-app.use('/arphat/api', Route);
+app.use('/api', Route);
 app.use('/arphat/assets', express.static('assets'));
 app.listen(PORT, () => console.log(`app listening on port ${PORT}`));

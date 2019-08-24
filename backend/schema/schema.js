@@ -1,20 +1,8 @@
 const joi = require('@hapi/joi');
 
 const mobil = joi.object({
-  nama: joi
-    .string()
-    .required()
-    .error(() => {
-      return '400';
-    }),
-  jenis: joi
-    .string()
-    .required()
-    .error(() => {
-      return '400';
-    }),
-  merek: joi
-    .string()
+  harga: joi
+    .number()
     .required()
     .error(() => {
       return '400';
@@ -25,8 +13,20 @@ const mobil = joi.object({
     .error(() => {
       return '400';
     }),
-  tahun: joi
+  plat: joi
+    .string()
+    .required()
+    .error(() => {
+      return '400';
+    }),
+  id_jenis_mobil: joi
     .number()
+    .required()
+    .error(() => {
+      return '400';
+    }),
+  status: joi
+    .string()
     .required()
     .error(() => {
       return '400';
@@ -35,25 +35,13 @@ const mobil = joi.object({
 const staff = joi.object({
   kode: joi
     .string()
-    .max(5)
+    .max(10)
     .required()
     .error(() => {
       return '400';
     }),
   nama: joi
     .string()
-    .required()
-    .error(() => {
-      return '400';
-    }),
-  alamat: joi
-    .string()
-    .required()
-    .error(() => {
-      return '400';
-    }),
-  telepon: joi
-    .number()
     .required()
     .error(() => {
       return '400';
@@ -92,14 +80,38 @@ const sewa = joi.object({
     .error(() => {
       return '400';
     }),
-  id_mobil: joi
+  id_jenis: joi
     .number()
     .required()
     .error(() => {
       return '400';
     }),
-  tanggal_sewa: joi
-    .date()
+  penggunaan_supir: joi
+    .number()
+    .required()
+    .error(() => {
+      return '400';
+    }),
+  mulai_sewa: joi
+    .string()
+    .required()
+    .error(() => {
+      return '400';
+    }),
+  akhir_sewa: joi
+    .string()
+    .required()
+    .error(() => {
+      return '400';
+    }),
+  lokasi_pickup: joi
+    .string()
+    .required()
+    .error(() => {
+      return '400';
+    }),
+  lokasi_destinasi: joi
+    .string()
     .required()
     .error(() => {
       return '400';
@@ -126,13 +138,7 @@ const transaksi = joi.object({
     })
 });
 const user = joi.object({
-  nama: joi
-    .string()
-    .required()
-    .error(() => {
-      return '400';
-    }),
-  alamat: joi
+  UID: joi
     .string()
     .required()
     .error(() => {
@@ -184,6 +190,48 @@ const login = joi.object({
       return '400';
     })
 });
+const supir = joi.object({
+  nama: joi
+    .string()
+    .required()
+    .error(() => {
+      return '400';
+    }),
+  alamat: joi
+    .string()
+    .required()
+    .error(() => {
+      return '400';
+    }),
+  telpon: joi
+    .string()
+    .required()
+    .error(() => {
+      return '400';
+    }),
+  status: joi
+    .string()
+    .required()
+    .error(() => {
+      return '400';
+    })
+});
+const id = joi.object({
+  id: joi
+    .number()
+    .required()
+    .error(() => {
+      return '400';
+    })
+});
+const jenis = joi.object({
+  jenis_mobil: joi
+    .string()
+    .required()
+    .error(() => {
+      return '400';
+    })
+});
 module.exports = {
   mobil: mobil,
   staff: staff,
@@ -191,5 +239,8 @@ module.exports = {
   sewa: sewa,
   transaksi: transaksi,
   user: user,
-  login: login
+  login: login,
+  supir: supir,
+  id: id,
+  jenis: jenis
 };

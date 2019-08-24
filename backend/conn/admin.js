@@ -25,7 +25,7 @@ module.exports = {
         if (err) {
           res.sendStatus(404);
         } else {
-          if (results) {
+          if (!(results.length === 0)) {
             let hash = crypto
               .createHash('md5')
               .update(body.password)
@@ -42,7 +42,7 @@ module.exports = {
                 req.session.islogged = true;
                 res.sendStatus(200);
               }
-            } else res.sendStatus(404);
+            } else res.sendStatus(422);
           } else {
             res.sendStatus(404);
           }
@@ -50,7 +50,7 @@ module.exports = {
       }
     );
   },
-  get: (req, res) => {
+  gets: (req, res) => {
     const { path } = req.route;
     let thru = false;
     let table = '';
@@ -67,6 +67,10 @@ module.exports = {
         table = 'user';
         thru = true;
         break;
+      case '/supir':
+        table = 'supir';
+        thru = true;
+        break;
       case '/transaksi':
         table = 'transaksi';
         thru = true;
@@ -79,13 +83,65 @@ module.exports = {
         table = 'riwayat_penyewaan';
         thru = true;
         break;
+      case '/jenis':
+        table = 'jenis_kendaraan';
+        thru = true;
+        break;
       default:
         thru = false;
         break;
     }
 
-    const sql = `SELECT * FROM ${table}`;
     if (thru) {
+      const sql = `SELECT * FROM ${table} limit 10`;
+      connection.query(sql, (err, results) => {
+        if (err) {
+          res.sendStatus(500);
+          console.log(err);
+        } else res.json(results);
+      });
+    } else res.sendStatus(404);
+  },
+  get: (req, res) => {
+    const { path } = req.route;
+    let thru = false;
+    let table = '';
+    switch (path) {
+      case '/mobil/:id':
+        table = 'mobil';
+        thru = true;
+        break;
+      case '/sewa/:id':
+        table = 'sewa';
+        thru = true;
+        break;
+      case '/user/:id':
+        table = 'user';
+        thru = true;
+        break;
+      case '/transaksi/:id':
+        table = 'transaksi';
+        thru = true;
+        break;
+      case '/staff/:id':
+        table = 'staff';
+        thru = true;
+        break;
+      case '/riwayat/:id':
+        table = 'riwayat_penyewaan';
+        thru = true;
+        break;
+      case '/jenis/:id':
+        table = 'jenis_kendaraan';
+        thru = true;
+        break;
+      default:
+        thru = false;
+        break;
+    }
+
+    if (thru) {
+      const sql = `SELECT * FROM ${table} where id=${req.params.id}`;
       connection.query(sql, (err, results) => {
         if (err) {
           res.sendStatus(500);
@@ -97,42 +153,185 @@ module.exports = {
   add: (req, res) => {
     const { path } = req.route;
     const { body } = req;
+    let sql = '';
+    let val = [];
+    let pass = false;
 
     switch (path) {
       case '/mobil':
-        connection.execute(
-          'INSERT INTO `mobil`( `nama`, `jenis`, `merek`, `kursi`, `tahun`) VALUES (?,?,?,?,?)',
-          [body.nama, body.jenis, body.merek, body.kursi, body.tahun],
-          (err, results) => {
-            if (err) {
-              res.sendStatus(500);
-              console.log(err);
-            } else res.json(results);
-          }
-        );
+        sql =
+          'INSERT INTO `mobil`( `id_jenis_mobil`, `plat`, `banyak_penumpang`, `harga`, `status`) VALUES (?,?,?,?,?)';
+        val = [body.id_jenis, body.plat, body.kursi, body.harga, body.status];
+        pass = true;
         break;
       case '/staff':
-        connection.execute(
-          'INSERT INTO `staff`(`kode_staff`, `nama_staff`, `alamat_staff`, `telepon_staff`, `username`, `password`) VALUES (?,?,?,?,?,?)',
-          [
-            body.kode,
-            body.nama,
-            body.alamat,
-            body.telepon,
-            body.username,
-            body.password
-          ],
-          (err, results) => {
-            if (err) {
-              res.sendStatus(500);
-              console.log(err);
-            } else res.json(results);
-          }
-        );
+        sql =
+          'INSERT INTO `staff`( `kode_staff`, `nama_staff`, `username`, `password`) VALUES (?,?,?,MD5(?))';
+        val = [body.kode, body.nama, body.username, body.password];
+        pass = true;
         break;
-      default:
-        res.sendStatus(404);
+      case '/user':
+        sql =
+          'INSERT INTO `user`(`UID`, `telepon`, `username`, `password`, `email`) VALUES (?,?,?,MD5(?),?)';
+        val = [
+          body.UID,
+          body.telepon,
+          body.username,
+          body.password,
+          body.email
+        ];
+        pass = true;
+        break;
+      case '/jenis':
+        sql = 'INSERT INTO `jenis_kendaraan`(`jenis_mobil`) VALUES (?)';
+        val = [body.jenis_mobil];
+        pass = true;
+        break;
+      case '/supir':
+        sql =
+          'INSERT INTO `supir`(`nama`, `alamat`, `telepon`, `status`) VALUES (?,?,?,?)';
+        val = [body.nama, body.alamat, body.telepon, body.status];
+        pass = true;
         break;
     }
+
+    if (pass) {
+      connection.execute(sql, val, (err, results) => {
+        if (err) {
+          res.sendStatus(500);
+          console.log(err);
+        } else res.json(results);
+      });
+    } else {
+      res.sendStatus(404);
+    }
+  },
+  upd: (req, res) => {
+    const { path } = req.route;
+    const { body } = req;
+    let sql = '';
+    let val = [];
+    let pass = false;
+
+    switch (path) {
+      case '/mobil/:id':
+        sql =
+          'UPDATE `mobil` SET `id_jenis_mobil`=?,`plat`=?,`banyak_penumpang`=?,`harga`=?,`status`=? WHERE id=?';
+        val = [
+          body.id_jenis,
+          body.plat,
+          body.kursi,
+          body.harga,
+          body.status,
+          req.params.id
+        ];
+        pass = true;
+        break;
+      case '/staff/:id':
+        sql =
+          'UPDATE `staff` SET `kode_staff`=?,`nama_staff`=?,`username`=?,`password`=MD5(?) WHERE id=?';
+        val = [
+          body.kode,
+          body.nama,
+          body.username,
+          body.password,
+          req.params.id
+        ];
+        pass = true;
+        break;
+      case '/user/:id':
+        sql =
+          'UPDATE `user` SET `UID`=?,`telepon`=?,`username`=?,`password`=MD5(?),`email`=? WHERE id=?';
+        val = [
+          body.UID,
+          body.telepon,
+          body.username,
+          body.password,
+          body.email,
+          req.params.id
+        ];
+        pass = true;
+        break;
+      case '/jenis/:id':
+        sql = 'UPDATE `jenis_kendaraan` SET `jenis_mobil`=? WHERE id=?';
+        val = [body.jenis_mobil, req.params.id];
+        pass = true;
+        break;
+      case '/supir/:id':
+        sql =
+          'UPDATE `supir` SET `nama`=?,`alamat`=?,`telepon`=?,`status`=? WHERE id=?';
+        val = [
+          body.nama,
+          body.alamat,
+          body.telepon,
+          body.status,
+          req.params.id
+        ];
+        pass = true;
+        break;
+    }
+
+    if (pass) {
+      connection.execute(sql, val, (err, results) => {
+        if (err) {
+          res.sendStatus(500);
+          console.log(err);
+        } else res.json(results);
+      });
+    } else {
+      res.sendStatus(404);
+    }
+  },
+  del: (req, res) => {
+    const { path } = req.route;
+    let thru = false;
+    let table = '';
+    switch (path) {
+      case '/mobil/:id':
+        table = 'mobil';
+        thru = true;
+        break;
+      case '/sewa/:id':
+        table = 'sewa';
+        thru = true;
+        break;
+      case '/user/:id':
+        table = 'user';
+        thru = true;
+        break;
+      case '/transaksi/:id':
+        table = 'transaksi';
+        thru = true;
+        break;
+      case '/staff/:id':
+        table = 'staff';
+        thru = true;
+        break;
+      case '/riwayat/:id':
+        table = 'riwayat_penyewaan';
+        thru = true;
+        break;
+      case '/jenis/:id':
+        table = 'jenis_kendaraan';
+        thru = true;
+        break;
+      case '/supir/:id':
+        table = 'supir';
+        thru = true;
+        break;
+      default:
+        thru = false;
+        break;
+    }
+
+    if (thru) {
+      const sql = `DELETE FROM ${table} where id=${req.params.id}`;
+      connection.query(sql, (err, results) => {
+        if (err) {
+          res.sendStatus(500);
+          console.log(err);
+        } else res.json(results);
+      });
+    } else res.sendStatus(404);
   }
 };

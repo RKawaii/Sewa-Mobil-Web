@@ -7,7 +7,7 @@ const connection = mysql.createConnection({
   host: 'localhost',
   user: 'roots',
   password: '',
-  database: ''
+  database: 'arphat'
 });
 
 connection.connect(function(err) {
