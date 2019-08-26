@@ -1,6 +1,9 @@
 const mysql = require('mysql2');
 const crypto = require('crypto');
 
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+
 //local mysql db connection
 const connection = mysql.createConnection({
   host: 'localhost',
@@ -40,7 +43,10 @@ module.exports = {
                 req.session.role = 'admin';
                 req.session.user_id = results.id;
                 req.session.islogged = true;
-                res.sendStatus(200);
+                res.status(200).json({
+                  role: req.session.role,
+                  user_id: req.session.user_id
+                });
               }
             } else res.sendStatus(422);
           } else {
@@ -52,11 +58,14 @@ module.exports = {
   },
   gets: (req, res) => {
     const { path } = req.route;
+    const { query } = req;
     let thru = false;
+    let srcby = '';
     let table = '';
     switch (path) {
       case '/mobil':
         table = 'mobil';
+        srcby = 'plat';
         thru = true;
         break;
       case '/sewa':
@@ -65,10 +74,12 @@ module.exports = {
         break;
       case '/user':
         table = 'user';
+        srcby = 'username';
         thru = true;
         break;
       case '/supir':
         table = 'supir';
+        srcby = 'nama';
         thru = true;
         break;
       case '/transaksi':
@@ -77,6 +88,7 @@ module.exports = {
         break;
       case '/staff':
         table = 'staff';
+        srcby = 'nama_staff';
         thru = true;
         break;
       case '/riwayat':
@@ -93,7 +105,20 @@ module.exports = {
     }
 
     if (thru) {
-      const sql = `SELECT * FROM ${table} limit 10`;
+      let offset = '';
+      let sql = `SELECT * FROM ${table} `;
+      if (Object.keys(query).length) {
+        if (query.search !== undefined) {
+          sql += `where ${srcby} LIKE ${mysql.escape(
+            '%' + query.search + '%'
+          )} `;
+        }
+        if (query.skip !== undefined) {
+          offset = mysql.escape(query.skip) + ',';
+        }
+      }
+      sql += `limit ${offset}10 `;
+
       connection.query(sql, (err, results) => {
         if (err) {
           res.sendStatus(500);
@@ -333,5 +358,22 @@ module.exports = {
         } else res.json(results);
       });
     } else res.sendStatus(404);
+  },
+  login2: (req, res) => {
+    const { body } = req;
+
+    passport.use(
+      new LocalStrategy(function(username, password, done) {
+        console.log(body);
+        console.log(username, password, done);
+
+        /*connection.execute(
+          'SELECT * FROM admin where username=?',
+          [username],
+          function(err, user) {}
+        );/** */
+      })
+    );
+    res.sendStatus(200);
   }
 };

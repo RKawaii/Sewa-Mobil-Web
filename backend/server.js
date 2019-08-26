@@ -14,6 +14,7 @@ const session = require('express-session');
 const validator = require('express-joi-validation').createValidator({});
 const schema = require('./schema/schema');
 const cors = require('cors');
+const passport = require('passport');
 
 //mysql connection
 const admin = require('./conn/admin');
@@ -37,15 +38,21 @@ Route.post('/login', validator.body(schema.login), function(req, res) {
   }
 });
 
+Route.post('/login2', function(req, res) {
+  admin.login2(req, res);
+});
+
 //untuk mobil
-Route.get('/mobil', function(req, res) {
+Route.get('/mobil', validator.query(schema.getting), function(req, res) {
+  admin.gets(req, res);
+  /*
   if (req.session.islogged) {
     if (req.session.role === 'admin') {
       admin.gets(req, res);
     } else {
       res.sendStatus(401);
     }
-  } else res.sendStatus(403);
+  } else res.sendStatus(403);/** */
 });
 Route.get('/mobil/:id', validator.params(schema.id), function(req, res) {
   if (req.session.islogged) {
@@ -365,7 +372,6 @@ app.use(helmet());
 app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(cors());
-
 app.use(
   session({
     secret: 'Astolfo 1s n0t g4y',
@@ -374,7 +380,8 @@ app.use(
     cookie: { maxAge: age }
   })
 );
-
+app.use(passport.initialize());
+app.use(passport.session());
 app.use('/api', Route);
 app.use('/arphat/assets', express.static('assets'));
 app.listen(PORT, () => console.log(`app listening on port ${PORT}`));

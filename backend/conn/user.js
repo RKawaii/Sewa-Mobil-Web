@@ -40,7 +40,10 @@ module.exports = {
                 req.session.role = 'user';
                 req.session.user_id = results.id;
                 req.session.islogged = true;
-                res.sendStatus(200);
+                res.status(200).json({
+                  role: req.session.role,
+                  user_id: req.session.user_id
+                });
               }
             } else res.sendStatus(422);
           } else {

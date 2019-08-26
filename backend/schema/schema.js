@@ -232,6 +232,10 @@ const jenis = joi.object({
       return '400';
     })
 });
+const getting = joi.object({
+  search: joi.string(),
+  skip: joi.number()
+});
 module.exports = {
   mobil: mobil,
   staff: staff,
@@ -242,5 +246,6 @@ module.exports = {
   login: login,
   supir: supir,
   id: id,
-  jenis: jenis
+  jenis: jenis,
+  getting: getting
 };

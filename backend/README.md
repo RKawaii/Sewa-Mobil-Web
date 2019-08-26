@@ -71,6 +71,23 @@ list end point untuk memakai endpoint harus terlebih dahulu melakukan post reque
 - PUT /api/supir/[id]
 - DELETE /api/supir/[id]
 
+## menggunakan fitur search dan skip
+
+cara menggunakan fitur search dan skip
+tinggal memasukan parameter get untuk search atau skip di endpoint yang dituju
+
+[contoh]
+
+- GET /api/mobil?search=B123
+
+  maka akan mendapatkan plat nomer yang ada B123
+
+- GET /api/mobil?skip=2
+
+  maka tidak akan menampilkan 2 query pertama
+
+**_fitur ini tidak tersedia untuk endpoint yang memakai id_**
+
 # input schemalist
 
 bila tidak sesuai schema maka akan ditolak
@@ -167,7 +184,6 @@ bila tidak sesuai schema maka akan ditolak
   akhir_sewa: 'string',
   lokasi_pickup: 'string',
   lokasi_destinasi: 'string'
-
 }
 ```
 
