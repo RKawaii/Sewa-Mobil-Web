@@ -97,6 +97,7 @@ module.exports = {
         break;
       case '/jenis':
         table = 'jenis_kendaraan';
+        srcby = 'jenis_mobil';
         thru = true;
         break;
       default:

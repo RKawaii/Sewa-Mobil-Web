@@ -87,6 +87,7 @@ tinggal memasukan parameter get untuk search atau skip di endpoint yang dituju
   maka tidak akan menampilkan 2 query pertama
 
 **_fitur ini tidak tersedia untuk endpoint yang memakai id_**
+**_ baru bisa dipakai di supir,staff,mobil,user _**
 
 # input schemalist
 

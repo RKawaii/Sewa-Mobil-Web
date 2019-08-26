@@ -44,15 +44,13 @@ Route.post('/login2', function(req, res) {
 
 //untuk mobil
 Route.get('/mobil', validator.query(schema.getting), function(req, res) {
-  admin.gets(req, res);
-  /*
   if (req.session.islogged) {
     if (req.session.role === 'admin') {
       admin.gets(req, res);
     } else {
       res.sendStatus(401);
     }
-  } else res.sendStatus(403);/** */
+  } else res.sendStatus(403); /** */
 });
 Route.get('/mobil/:id', validator.params(schema.id), function(req, res) {
   if (req.session.islogged) {
@@ -144,7 +142,7 @@ Route.delete('/sewa/:id', function(req, res) {
 });
 
 //untuk user
-Route.get('/user', function(req, res) {
+Route.get('/user', validator.query(schema.getting), function(req, res) {
   if (req.session.islogged) {
     if (req.session.role === 'admin') {
       admin.gets(req, res);
@@ -209,7 +207,7 @@ Route.delete('/transaksi', validator.body(schema.transaksi), function(
 });
 
 //untuk staff
-Route.get('/staff', function(req, res) {
+Route.get('/staff', validator.query(schema.getting), function(req, res) {
   if (req.session.islogged) {
     if (req.session.role === 'admin') {
       admin.gets(req, res);
@@ -271,7 +269,7 @@ Route.post('/riwayat', validator.body(schema.transaksi), function(req, res) {
 });
 
 //untuk supir
-Route.get('/supir', function(req, res) {
+Route.get('/supir', validator.query(schema.getting), function(req, res) {
   if (req.session.islogged) {
     if (req.session.role === 'admin') {
       admin.gets(req, res);
