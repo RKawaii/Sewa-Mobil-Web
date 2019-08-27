@@ -1,8 +1,7 @@
 const mysql = require('mysql2');
 const crypto = require('crypto');
-
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
+const keys = require('../schema/keys');
+const jwt = require('jsonwebtoken');
 
 //local mysql db connection
 const connection = mysql.createConnection({
@@ -40,12 +39,18 @@ module.exports = {
                 res.sendStatus(500);
                 console.log(err);
               } else {
-                req.session.role = 'admin';
-                req.session.user_id = results.id;
-                req.session.islogged = true;
+                const token = jwt.sign(
+                  {
+                    role: 'admin',
+                    id: results.id
+                  },
+                  keys,
+                  { expiresIn: '2h' }
+                );
+
                 res.status(200).json({
-                  role: req.session.role,
-                  user_id: req.session.user_id
+                  msg: 'login berhasil',
+                  Token: token
                 });
               }
             } else res.sendStatus(422);
@@ -359,22 +364,5 @@ module.exports = {
         } else res.json(results);
       });
     } else res.sendStatus(404);
-  },
-  login2: (req, res) => {
-    const { body } = req;
-
-    passport.use(
-      new LocalStrategy(function(username, password, done) {
-        console.log(body);
-        console.log(username, password, done);
-
-        /*connection.execute(
-          'SELECT * FROM admin where username=?',
-          [username],
-          function(err, user) {}
-        );/** */
-      })
-    );
-    res.sendStatus(200);
   }
 };
