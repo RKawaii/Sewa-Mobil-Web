@@ -1,5 +1,7 @@
 const mysql = require('mysql2');
 const crypto = require('crypto');
+const keys = require('../schema/keys');
+const jwt = require('jsonwebtoken');
 
 //local mysql db connection
 const connection = mysql.createConnection({
@@ -37,12 +39,18 @@ module.exports = {
                 res.sendStatus(500);
                 console.log(err);
               } else {
-                req.session.role = 'user';
-                req.session.user_id = results.id;
-                req.session.islogged = true;
+                const token = jwt.sign(
+                  {
+                    role: 'user',
+                    id: results.id
+                  },
+                  keys,
+                  { expiresIn: '2h' }
+                );
+
                 res.status(200).json({
-                  role: req.session.role,
-                  user_id: req.session.user_id
+                  msg: 'login berhasil',
+                  Token: token
                 });
               }
             } else res.sendStatus(422);
