@@ -28,7 +28,7 @@ Route.get('/login', function(req, res) {
       role: req.session.role,
       user_id: req.session.user_id
     });
-  } else res.sendStatus(403);
+  } else res.sendStatus(401);
 });
 Route.post('/login', validator.body(schema.login), function(req, res) {
   if (req.body.role === 'admin') {
@@ -42,11 +42,22 @@ Route.post('/login2', function(req, res) {
   admin.login2(req, res);
 });
 
+Route.get('/logout', function(req, res) {
+  try {
+    req.session.destroy();
+    res.send('logout');
+  } catch (error) {
+    res.sendStatus(500);
+  }
+});
+
 //untuk mobil
 Route.get('/mobil', validator.query(schema.getting), function(req, res) {
   if (req.session.islogged) {
     if (req.session.role === 'admin') {
       admin.gets(req, res);
+    } else if (req.session.role === 'user') {
+      user.gets(req, res);
     } else {
       res.sendStatus(401);
     }
@@ -56,6 +67,8 @@ Route.get('/mobil/:id', validator.params(schema.id), function(req, res) {
   if (req.session.islogged) {
     if (req.session.role === 'admin') {
       admin.get(req, res);
+    } else if (req.session.role === 'user') {
+      user.get(req, res);
     } else {
       res.sendStatus(401);
     }
@@ -99,6 +112,8 @@ Route.get('/sewa', function(req, res) {
   if (req.session.islogged) {
     if (req.session.role === 'user') {
       user.gets(req, res);
+    } else if (req.session.role === 'user') {
+      user.gets(req, res);
     } else {
       res.sendStatus(401);
     }
@@ -108,6 +123,8 @@ Route.get('/sewa/:id', function(req, res) {
   if (req.session.islogged) {
     if (req.session.role === 'user') {
       admin.get(req, res);
+    } else if (req.session.role === 'user') {
+      user.get(req, res);
     } else {
       res.sendStatus(401);
     }
@@ -146,6 +163,8 @@ Route.get('/user', validator.query(schema.getting), function(req, res) {
   if (req.session.islogged) {
     if (req.session.role === 'admin') {
       admin.gets(req, res);
+    } else if (req.session.role === 'user') {
+      user.gets(req, res);
     } else {
       res.sendStatus(401);
     }
@@ -155,6 +174,8 @@ Route.get('/user/:id', validator.params(schema.id), function(req, res) {
   if (req.session.islogged) {
     if (req.session.role === 'admin') {
       admin.get(req, res);
+    } else if (req.session.role === 'user') {
+      user.get(req, res);
     } else {
       res.sendStatus(401);
     }
@@ -164,6 +185,8 @@ Route.post('/user', validator.body(schema.user), function(req, res) {
   if (req.session.islogged) {
     if (req.session.role === 'admin') {
       admin.add(req, res);
+    } else if (req.session.role === 'user') {
+      user.add(req, res);
     } else {
       res.sendStatus(401);
     }
@@ -173,6 +196,8 @@ Route.put('/user/:id', validator.body(schema.user), function(req, res) {
   if (req.session.islogged) {
     if (req.session.role === 'admin') {
       admin.upd(req, res);
+    } else if (req.session.role === 'user') {
+      user.upd(req, res);
     } else {
       res.sendStatus(401);
     }

@@ -182,7 +182,7 @@ bila tidak sesuai schema maka akan ditolak
   id_jenis: number,
   penggunaan_supir: number (0/1),
   mulai_sewa: 'string format: YYYY-MM-DD HH:mm:SS',
-  akhir_sewa: 'string',
+  akhir_sewa: 'string format: YYYY-MM-DD HH:mm:SS',
   lokasi_pickup: 'string',
   lokasi_destinasi: 'string'
 }

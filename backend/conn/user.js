@@ -58,6 +58,10 @@ module.exports = {
     let thru = false;
     let table = '';
     switch (path) {
+      case '/mobil':
+        table = 'mobil';
+        thru = true;
+        break;
       case '/sewa':
         table = 'sewa';
         thru = true;
@@ -90,6 +94,10 @@ module.exports = {
     let thru = false;
     let table = '';
     switch (path) {
+      case '/mobil/:id':
+        table = 'mobil';
+        thru = true;
+        break;
       case '/sewa/:id':
         table = 'sewa';
         thru = true;
@@ -127,7 +135,7 @@ module.exports = {
     switch (path) {
       case '/sewa':
         sql =
-          'INSERT INTO `sewa`(`id_user`, `id_jenis_mobil`, `penggunaan_supir`, `mulai_sewa`, `akhir_sewa`, `lokasi_pickup`, `lokasi_destinasi`) VALUES (?,?,?,?,?,?,?)';
+          'INSERT INTO `sewa`(`id_user`, `id_jenis_mobil`, `penggunaan_supir`, `mulai_sewa`, `akhir_sewa`, `lokasi_pickup`, `lokasi_destinasi`) VALUES (?,?,?,DATETIME(?),DATETIME(?),?,?)';
         val = [
           body.id_user,
           body.id_jenis,
