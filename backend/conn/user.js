@@ -70,6 +70,10 @@ module.exports = {
         table = 'mobil';
         thru = true;
         break;
+      case '/user':
+        table = 'user';
+        thru = true;
+        break;
       case '/sewa':
         table = 'sewa';
         thru = true;
@@ -124,7 +128,7 @@ module.exports = {
     }
 
     if (thru) {
-      const sql = `SELECT * FROM ${table} where id=${req.params.id}`;
+      const sql = `SELECT * FROM ${table} where id=${req.userData.id}`;
       connection.query(sql, (err, results) => {
         if (err) {
           res.sendStatus(500);
@@ -145,7 +149,7 @@ module.exports = {
         sql =
           'INSERT INTO `sewa`(`id_user`, `id_jenis_mobil`, `penggunaan_supir`, `mulai_sewa`, `akhir_sewa`, `lokasi_pickup`, `lokasi_destinasi`) VALUES (?,?,?,DATETIME(?),DATETIME(?),?,?)';
         val = [
-          body.id_user,
+          req.userData.id,
           body.id_jenis,
           body.penggunaan_supir,
           body.mulai_sewa,
@@ -180,7 +184,7 @@ module.exports = {
         sql =
           'UPDATE `sewa` SET `id_user`=?,`id_jenis_mobil`=?,`penggunaan_supir`=?,`mulai_sewa`=?,`akhir_sewa`=?,`lokasi_pickup`=?,`lokasi_destinasi`=? WHERE `id`=?';
         val = [
-          body.id_user,
+          body.req.userData.id,
           body.id_jenis,
           body.penggunaan_supir,
           body.mulai_sewa,
@@ -220,7 +224,7 @@ module.exports = {
     }
 
     if (thru) {
-      const sql = `DELETE FROM ${table} where id=${req.params.id}`;
+      const sql = `DELETE FROM ${table} where id=${req.userData.id}`;
       connection.query(sql, (err, results) => {
         if (err) {
           res.sendStatus(500);
