@@ -45,7 +45,7 @@ module.exports = {
                     id: results.id
                   },
                   keys,
-                  { expiresIn: '2h' }
+                  { expiresIn: '5h' }
                 );
 
                 res.status(200).json({
