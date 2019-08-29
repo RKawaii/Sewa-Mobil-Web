@@ -107,7 +107,7 @@ bila tidak sesuai schema maka akan ditolak
 
 ```
 {
-  id_jenis: number,
+  id_jenis_mobil: number,
   plat: 'string',
   kursi: integer,
   harga: number,

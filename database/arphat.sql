@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Aug 24, 2019 at 05:41 AM
+-- Generation Time: Aug 29, 2019 at 12:44 AM
 -- Server version: 8.0.16
 -- PHP Version: 7.2.19
 
@@ -52,6 +52,13 @@ CREATE TABLE `jenis_kendaraan` (
   `jenis_mobil` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `jenis_kendaraan`
+--
+
+INSERT INTO `jenis_kendaraan` (`id`, `jenis_mobil`) VALUES
+(1, 'asdasd');
+
 -- --------------------------------------------------------
 
 --
@@ -67,6 +74,13 @@ CREATE TABLE `mobil` (
   `status` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT 'available'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `mobil`
+--
+
+INSERT INTO `mobil` (`id`, `id_jenis_mobil`, `plat`, `banyak_penumpang`, `harga`, `status`) VALUES
+(5, 1, 'asd', 12, 23333, 'available');
+
 -- --------------------------------------------------------
 
 --
@@ -78,6 +92,13 @@ CREATE TABLE `riwayat_penyewaan` (
   `id_transaksi` int(11) NOT NULL,
   `status_riwayat` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `riwayat_penyewaan`
+--
+
+INSERT INTO `riwayat_penyewaan` (`id`, `id_transaksi`, `status_riwayat`) VALUES
+(2, 2, 'aaa');
 
 -- --------------------------------------------------------
 
@@ -96,6 +117,13 @@ CREATE TABLE `sewa` (
   `lokasi_destinasi` varchar(200) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `sewa`
+--
+
+INSERT INTO `sewa` (`id`, `id_user`, `id_jenis_mobil`, `penggunaan_supir`, `mulai_sewa`, `akhir_sewa`, `lokasi_pickup`, `lokasi_destinasi`) VALUES
+(2, 1, 1, 1, '2019-08-20 00:00:00', '2019-08-24 00:00:00', 'adasd', 'asdadsad');
+
 -- --------------------------------------------------------
 
 --
@@ -104,7 +132,7 @@ CREATE TABLE `sewa` (
 
 CREATE TABLE `staff` (
   `id` int(11) NOT NULL,
-  `kode_staff` varchar(5) NOT NULL,
+  `kode_staff` varchar(10) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `nama_staff` varchar(30) NOT NULL,
   `username` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL
@@ -145,6 +173,13 @@ CREATE TABLE `transaksi` (
   `status_transaksi` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `transaksi`
+--
+
+INSERT INTO `transaksi` (`id`, `kode_transaksi`, `id_sewa`, `biaya`, `status_transaksi`) VALUES
+(2, 'ad', 2, 20000, 'asd');
+
 -- --------------------------------------------------------
 
 --
@@ -154,9 +189,10 @@ CREATE TABLE `transaksi` (
 CREATE TABLE `user` (
   `id` int(11) NOT NULL,
   `UID` varchar(255) NOT NULL,
-  `telepon` varchar(20) NOT NULL,
+  `telepon` varchar(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
+  `alamat` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
   `username` varchar(30) NOT NULL,
-  `password` varchar(15) NOT NULL,
+  `password` varchar(15) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
   `email` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -164,8 +200,8 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `UID`, `telepon`, `username`, `password`, `email`) VALUES
-(1, '', '123445', 'rento', '123', 'dddd@dd.com');
+INSERT INTO `user` (`id`, `UID`, `telepon`, `alamat`, `username`, `password`, `email`) VALUES
+(1, 'dasdadasda', '123445', '', 'rento', '123', 'dddd@dd.com');
 
 --
 -- Indexes for dumped tables
@@ -244,25 +280,25 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `jenis_kendaraan`
 --
 ALTER TABLE `jenis_kendaraan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `mobil`
 --
 ALTER TABLE `mobil`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `riwayat_penyewaan`
 --
 ALTER TABLE `riwayat_penyewaan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `sewa`
 --
 ALTER TABLE `sewa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `staff`
@@ -280,7 +316,7 @@ ALTER TABLE `supir`
 -- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `user`
