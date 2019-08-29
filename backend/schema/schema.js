@@ -80,7 +80,7 @@ const sewa = joi.object({
     .error(() => {
       return '400';
     }),
-  id_jenis: joi
+  id_jenis_mobil: joi
     .number()
     .required()
     .error(() => {
@@ -135,6 +135,12 @@ const transaksi = joi.object({
     .required()
     .error(() => {
       return '400';
+    }),
+  status_transaksi: joi
+    .string()
+    .required()
+    .error(() => {
+      return '400';
     })
 });
 const user = joi.object({
@@ -146,6 +152,12 @@ const user = joi.object({
     }),
   telepon: joi
     .number()
+    .required()
+    .error(() => {
+      return '400';
+    }),
+  alamat: joi
+    .string()
     .required()
     .error(() => {
       return '400';

@@ -61,65 +61,46 @@ module.exports = {
       }
     );
   },
-  gets: (req, res) => {
+  get: (req, res) => {
     const { path } = req.route;
+    const { query } = req;
     let thru = false;
-    let table = '';
+    let srcby = '';
+    let sql = '';
+
     switch (path) {
       case '/mobil':
-        table = 'mobil';
-        thru = true;
-        break;
-      case '/user':
-        table = 'user';
+        sql =
+          'SELECT mobil.id,jenis_kendaraan.jenis_mobil,mobil.plat,mobil.banyak_penumpang,mobil.harga,mobil.status FROM mobil JOIN jenis_kendaraan  ON mobil.id_jenis_mobil = jenis_kendaraan.id ';
+        srcby = 'plat';
         thru = true;
         break;
       case '/sewa':
-        table = 'sewa';
+        sql = `SELECT sewa.id,jenis_kendaraan.jenis_mobil, user.email, sewa.penggunaan_supir, sewa.mulai_sewa, sewa.akhir_sewa, sewa.lokasi_pickup, sewa.lokasi_destinasi FROM sewa join jenis_kendaraan on sewa.id_jenis_mobil = jenis_kendaraan.id join user on user.id = sewa.id_user where user.id=${req.userData.id} `;
         thru = true;
         break;
       case '/transaksi':
-        table = 'transaksi';
+        sql = `SELECT sewa.*, transaksi.kode_transaksi, transaksi.biaya, transaksi.status_transaksi FROM sewa join transaksi on transaksi.id_sewa = sewa.id where sewa.id_user=${req.userData.id} `;
         thru = true;
         break;
       case '/riwayat':
-        table = 'riwayat_penyewaan';
+        sql = `SELECT riwayat_penyewaan.*,transaksi.kode_transaksi,transaksi.biaya,transaksi.status_transaksi, sewa.id_user FROM riwayat_penyewaan JOIN transaksi ON riwayat_penyewaan.id_transaksi = transaksi.id join sewa on sewa.id = transaksi.id_sewa where sewa.id_user=${req.userData.id} `;
         thru = true;
         break;
-      default:
-        thru = false;
-        break;
-    }
-
-    if (thru) {
-      const sql = `SELECT * FROM ${table} limit 10`;
-      connection.query(sql, (err, results) => {
-        if (err) {
-          res.sendStatus(500);
-          console.log(err);
-        } else res.json(results);
-      });
-    } else res.sendStatus(404);
-  },
-  get: (req, res) => {
-    const { path } = req.route;
-    let thru = false;
-    let table = '';
-    switch (path) {
       case '/mobil/:id':
-        table = 'mobil';
+        sql = `SELECT mobil.id,jenis_kendaraan.jenis_mobil,mobil.plat,mobil.banyak_penumpang,mobil.harga,mobil.status FROM mobil JOIN jenis_kendaraan  ON mobil.id_jenis_mobil = jenis_kendaraan.id where id=${req.params.id} `;
         thru = true;
         break;
       case '/sewa/:id':
-        table = 'sewa';
+        sql = `SELECT sewa.id,jenis_kendaraan.jenis_mobil, user.email, sewa.penggunaan_supir, sewa.mulai_sewa, sewa.akhir_sewa, sewa.lokasi_pickup, sewa.lokasi_destinasi FROM sewa join jenis_kendaraan on sewa.id_jenis_mobil = jenis_kendaraan.id join user on user.id = sewa.id_user where user.id=${req.userData.id} and where id=${req.params.id} `;
         thru = true;
         break;
       case '/transaksi/:id':
-        table = 'transaksi';
+        sql = `SELECT sewa.*, transaksi.kode_transaksi, transaksi.biaya, transaksi.status_transaksi FROM sewa join transaksi on transaksi.id_sewa = sewa.id where sewa.id_user=${req.userData.id} and where id=${req.params.id} `;
         thru = true;
         break;
       case '/riwayat/:id':
-        table = 'riwayat_penyewaan';
+        sql = `SELECT sewa.*, transaksi.kode_transaksi, transaksi.biaya, transaksi.status_transaksi FROM sewa join transaksi on transaksi.id_sewa = sewa.id where sewa.id_user=${req.userData.id} and where id=${req.params.id} `;
         thru = true;
         break;
       default:
@@ -128,7 +109,19 @@ module.exports = {
     }
 
     if (thru) {
-      const sql = `SELECT * FROM ${table} where id=${req.userData.id}`;
+      let offset = '';
+      if (Object.keys(query).length) {
+        if (query.search !== undefined) {
+          sql += `where ${srcby} LIKE ${mysql.escape(
+            '%' + query.search + '%'
+          )} `;
+        }
+        if (query.skip !== undefined) {
+          offset = mysql.escape(query.skip) + ',';
+        }
+      }
+      sql += `limit ${offset}10 `;
+
       connection.query(sql, (err, results) => {
         if (err) {
           res.sendStatus(500);
@@ -157,6 +150,23 @@ module.exports = {
           body.lokasi_pickup,
           body.lokasi_destinasi
         ];
+        pass = true;
+        break;
+      case '/transaksi':
+        sql =
+          'INSERT INTO `transaksi`(`kode_transaksi`, `id_sewa`, `biaya`, `status_transaksi`) VALUES (?,?,?,?)';
+        val = [
+          body.kode_transaksi,
+          body.id_sewa,
+          body.biaya,
+          body.status_transaksi
+        ];
+        pass = true;
+        break;
+      case '/riwayat':
+        sql =
+          'INSERT INTO `riwayat_penyewaan`(id_transaksi`, `status_riwayat`) VALUES (?,?)';
+        val = [body.id, body.status];
         pass = true;
         break;
     }
@@ -195,6 +205,24 @@ module.exports = {
         ];
         pass = true;
         break;
+      case '/transaksi/:id':
+        sql =
+          'UPDATE `transaksi` SET `kode_transaksi`=?,`id_sewa`=?,`biaya`=?,`status_transaksi`=? WHERE `id`=?';
+        val = [
+          body.kode_transaksi,
+          body.id_sewa,
+          body.biaya,
+          body.status_transaksi,
+          req.params.id
+        ];
+        pass = true;
+        break;
+      case '/riwayat/:id':
+        sql =
+          'UPDATE `riwayat_penyewaan` SET ,`id_transaksi`=?,`status_riwayat`=? WHERE `id`=?';
+        val = [body.id, body.status, req.params.id];
+        pass = true;
+        break;
     }
 
     if (pass) {
@@ -217,7 +245,10 @@ module.exports = {
         table = 'sewa';
         thru = true;
         break;
-
+      case '/transaksi/:id':
+        table = 'transaksi';
+        thru = true;
+        break;
       default:
         thru = false;
         break;

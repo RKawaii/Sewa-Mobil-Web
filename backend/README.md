@@ -141,6 +141,7 @@ bila tidak sesuai schema maka akan ditolak
 {
   UID: 'string',
   telepon: 'number',
+  alamat: 'string',
   username: 'string',
   password: 'string',
   email: 'email string'
@@ -162,7 +163,10 @@ bila tidak sesuai schema maka akan ditolak
 
 ```
 {
-
+  kode_transaksi: string,
+  id_sewa: string,
+  biaya: number,
+  status_transaksi: string
 }
 ```
 
@@ -179,7 +183,7 @@ bila tidak sesuai schema maka akan ditolak
 ```
 {
   id_user: number,
-  id_jenis: number,
+  id_jenis_mobil: number,
   penggunaan_supir: number (0/1),
   mulai_sewa: 'string format: YYYY-MM-DD HH:mm:SS',
   akhir_sewa: 'string format: YYYY-MM-DD HH:mm:SS',
