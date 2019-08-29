@@ -87,14 +87,18 @@ Route.delete('/mobil/:id', auth, function(req, res) {
 
 //untuk sewa
 Route.get('/sewa', auth, function(req, res) {
-  if (req.userData.role === 'user') {
+  if (req.userData.role === 'admin') {
+    admin.get(req, res);
+  } else if (req.userData.role === 'user') {
     user.get(req, res);
   } else {
     res.sendStatus(403);
   }
 });
 Route.get('/sewa/:id', auth, function(req, res) {
-  if (req.userData.role === 'user') {
+  if (req.userData.role === 'admin') {
+    admin.get(req, res);
+  } else if (req.userData.role === 'user') {
     user.get(req, res);
   } else {
     res.sendStatus(403);
@@ -170,6 +174,15 @@ Route.delete('/user/:id', validator.body(schema.user), auth, function(
 
 //untuk transaksi
 Route.get('/transaksi', auth, function(req, res) {
+  if (req.userData.role === 'admin') {
+    admin.get(req, res);
+  } else if (req.userData.role === 'user') {
+    user.get(req, res);
+  } else {
+    res.sendStatus(403);
+  }
+});
+Route.get('/transaksi/:id', auth, function(req, res) {
   if (req.userData.role === 'admin') {
     admin.get(req, res);
   } else if (req.userData.role === 'user') {
@@ -264,9 +277,18 @@ Route.delete('/staff/:id', validator.body(schema.transaksi), function(
 //untuk riwayat
 Route.get('/riwayat', auth, function(req, res) {
   if (req.userData.role === 'admin') {
-    admin.upd(req, res);
+    admin.get(req, res);
   } else if (req.userData.role === 'user') {
-    user.upd(req, res);
+    user.get(req, res);
+  } else {
+    res.sendStatus(403);
+  }
+});
+Route.get('/riwayat/:id', auth, function(req, res) {
+  if (req.userData.role === 'admin') {
+    admin.get(req, res);
+  } else if (req.userData.role === 'user') {
+    user.get(req, res);
   } else {
     res.sendStatus(403);
   }
