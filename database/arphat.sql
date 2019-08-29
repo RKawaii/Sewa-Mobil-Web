@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Aug 29, 2019 at 12:44 AM
+-- Generation Time: Aug 29, 2019 at 01:04 AM
 -- Server version: 8.0.16
 -- PHP Version: 7.2.19
 
@@ -159,6 +159,13 @@ CREATE TABLE `supir` (
   `status` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `supir`
+--
+
+INSERT INTO `supir` (`id`, `nama`, `alamat`, `telepon`, `status`) VALUES
+(1, 'asdad', 'BG34D', '53234234', '2sada');
+
 -- --------------------------------------------------------
 
 --
@@ -192,7 +199,7 @@ CREATE TABLE `user` (
   `telepon` varchar(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
   `alamat` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
   `username` varchar(30) NOT NULL,
-  `password` varchar(15) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
+  `password` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
   `email` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -201,7 +208,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `UID`, `telepon`, `alamat`, `username`, `password`, `email`) VALUES
-(1, 'dasdadasda', '123445', '', 'rento', '123', 'dddd@dd.com');
+(1, 'dasdadasda', '123445', '', 'rento', '123', 'dddd@dd.com'),
+(2, 'asdad', '53234234', 'BG34D', 'qwert', '81dc9bdb52d04dc20036dbd8313ed055', 'asd@asd.com');
 
 --
 -- Indexes for dumped tables
@@ -264,7 +272,8 @@ ALTER TABLE `transaksi`
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -310,7 +319,7 @@ ALTER TABLE `staff`
 -- AUTO_INCREMENT for table `supir`
 --
 ALTER TABLE `supir`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `transaksi`
@@ -322,7 +331,7 @@ ALTER TABLE `transaksi`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables

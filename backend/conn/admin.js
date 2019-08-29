@@ -193,7 +193,7 @@ module.exports = {
         break;
       case '/user':
         sql =
-          'INSERT INTO `user`(`UID`, `telepon`,`alamat`, `username`, `password`, `email`) VALUES (?,?,?,MD5(?),?)';
+          'INSERT INTO `user`( `UID`, `telepon`, `alamat`, `username`, `password`, `email`) VALUES (?,?,?,?,MD5(?),?)';
         val = [
           body.UID,
           body.telepon,

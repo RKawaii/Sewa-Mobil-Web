@@ -215,7 +215,7 @@ const supir = joi.object({
     .error(() => {
       return '400';
     }),
-  telpon: joi
+  telepon: joi
     .string()
     .required()
     .error(() => {

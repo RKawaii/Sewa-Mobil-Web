@@ -345,14 +345,14 @@ Route.get('/supir/:id', auth, function(req, res) {
     res.sendStatus(403);
   }
 });
-Route.post('/supir', validator.body(schema.mobil), auth, function(req, res) {
+Route.post('/supir', validator.body(schema.supir), auth, function(req, res) {
   if (req.userData.role === 'admin') {
     admin.add(req, res);
   } else {
     res.sendStatus(403);
   }
 });
-Route.put('/supir/:id', validator.body(schema.mobil), auth, function(req, res) {
+Route.put('/supir/:id', validator.body(schema.supir), auth, function(req, res) {
   if (req.userData.role === 'admin') {
     admin.upd(req, res);
   } else {
