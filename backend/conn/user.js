@@ -138,6 +138,19 @@ module.exports = {
     let pass = false;
 
     switch (path) {
+      case '/user':
+        sql =
+          'INSERT INTO `user`(`UID`, `telepon`,`alamat`, `username`, `password`, `email`) VALUES (?,?,?,MD5(?),?)';
+        val = [
+          body.UID,
+          body.telepon,
+          body.alamat,
+          body.username,
+          body.password,
+          body.email
+        ];
+        pass = true;
+        break;
       case '/sewa':
         sql =
           'INSERT INTO `sewa`(`id_user`, `id_jenis_mobil`, `penggunaan_supir`, `mulai_sewa`, `akhir_sewa`, `lokasi_pickup`, `lokasi_destinasi`) VALUES (?,?,?,DATETIME(?),DATETIME(?),?,?)';
