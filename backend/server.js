@@ -77,7 +77,10 @@ Route.put(
     }
   }
 );
-Route.delete('/mobil/:id', auth, function(req, res) {
+Route.delete('/mobil/:id', validator.params(schema.id), auth, function(
+  req,
+  res
+) {
   if (req.userData.role === 'admin') {
     admin.del(req, res);
   } else {
@@ -86,7 +89,7 @@ Route.delete('/mobil/:id', auth, function(req, res) {
 });
 
 //untuk sewa
-Route.get('/sewa', auth, function(req, res) {
+Route.get('/sewa', validator.query(schema.getting), auth, function(req, res) {
   if (req.userData.role === 'admin') {
     admin.get(req, res);
   } else if (req.userData.role === 'user') {
@@ -95,7 +98,7 @@ Route.get('/sewa', auth, function(req, res) {
     res.sendStatus(403);
   }
 });
-Route.get('/sewa/:id', auth, function(req, res) {
+Route.get('/sewa/:id', validator.params(schema.id), auth, function(req, res) {
   if (req.userData.role === 'admin') {
     admin.get(req, res);
   } else if (req.userData.role === 'user') {
@@ -111,14 +114,23 @@ Route.post('/sewa', validator.body(schema.sewa), auth, function(req, res) {
     res.sendStatus(403);
   }
 });
-Route.put('/sewa/:id', validator.body(schema.sewa), auth, function(req, res) {
-  if (req.userData.role === 'user') {
-    user.upd(req, res);
-  } else {
-    res.sendStatus(403);
+Route.put(
+  '/sewa/:id',
+  validator.body(schema.sewa),
+  validator.params(schema.id),
+  auth,
+  function(req, res) {
+    if (req.userData.role === 'user') {
+      user.upd(req, res);
+    } else {
+      res.sendStatus(403);
+    }
   }
-});
-Route.delete('/sewa/:id', auth, function(req, res) {
+);
+Route.delete('/sewa/:id', validator.params(schema.id), auth, function(
+  req,
+  res
+) {
   if (req.userData.role === 'user') {
     user.del(req, res);
   } else {
@@ -152,16 +164,22 @@ Route.post('/user', validator.body(schema.user), auth, function(req, res) {
     res.sendStatus(403);
   }
 });
-Route.put('/user/:id', validator.body(schema.user), auth, function(req, res) {
-  if (req.userData.role === 'admin') {
-    admin.upd(req, res);
-  } else if (req.userData.role === 'user') {
-    user.upd(req, res);
-  } else {
-    res.sendStatus(403);
+Route.put(
+  '/user/:id',
+  validator.body(schema.user),
+  validator.params(schema.id),
+  auth,
+  function(req, res) {
+    if (req.userData.role === 'admin') {
+      admin.upd(req, res);
+    } else if (req.userData.role === 'user') {
+      user.upd(req, res);
+    } else {
+      res.sendStatus(403);
+    }
   }
-});
-Route.delete('/user/:id', validator.body(schema.user), auth, function(
+);
+Route.delete('/user/:id', validator.params(schema.id), auth, function(
   req,
   res
 ) {
@@ -173,7 +191,10 @@ Route.delete('/user/:id', validator.body(schema.user), auth, function(
 });
 
 //untuk transaksi
-Route.get('/transaksi', auth, function(req, res) {
+Route.get('/transaksi', validator.query(schema.getting), auth, function(
+  req,
+  res
+) {
   if (req.userData.role === 'admin') {
     admin.get(req, res);
   } else if (req.userData.role === 'user') {
@@ -182,7 +203,10 @@ Route.get('/transaksi', auth, function(req, res) {
     res.sendStatus(403);
   }
 });
-Route.get('/transaksi/:id', auth, function(req, res) {
+Route.get('/transaksi/:id', validator.params(schema.id), auth, function(
+  req,
+  res
+) {
   if (req.userData.role === 'admin') {
     admin.get(req, res);
   } else if (req.userData.role === 'user') {
@@ -203,22 +227,22 @@ Route.post('/transaksi', validator.body(schema.transaksi), auth, function(
     res.sendStatus(403);
   }
 });
-Route.put('/transaksi/:id', validator.body(schema.transaksi), auth, function(
-  req,
-  res
-) {
-  if (req.userData.role === 'admin') {
-    admin.upd(req, res);
-  } else if (req.userData.role === 'user') {
-    user.upd(req, res);
-  } else {
-    res.sendStatus(403);
+Route.put(
+  '/transaksi/:id',
+  validator.body(schema.transaksi),
+  validator.params(schema.id),
+  auth,
+  function(req, res) {
+    if (req.userData.role === 'admin') {
+      admin.upd(req, res);
+    } else if (req.userData.role === 'user') {
+      user.upd(req, res);
+    } else {
+      res.sendStatus(403);
+    }
   }
-});
-Route.delete('/transaksi/:id', validator.body(schema.transaksi), function(
-  req,
-  res
-) {
+);
+Route.delete('/transaksi/:id', validator.params(schema.id), function(req, res) {
   if (req.userData.role === 'admin') {
     admin.del(req, res);
   } else if (req.userData.role === 'user') {
@@ -236,34 +260,34 @@ Route.get('/staff', validator.query(schema.getting), auth, function(req, res) {
     res.sendStatus(403);
   }
 });
-Route.get('/staff/id', auth, function(req, res) {
+Route.get('/staff/id', validator.params(schema.id), auth, function(req, res) {
   if (req.userData.role === 'admin') {
     admin.get(req, res);
   } else {
     res.sendStatus(403);
   }
 });
-Route.post('/staff', validator.body(schema.transaksi), auth, function(
-  req,
-  res
-) {
+Route.post('/staff', validator.body(schema.staff), auth, function(req, res) {
   if (req.userData.role === 'admin') {
     admin.add(req, res);
   } else {
     res.sendStatus(403);
   }
 });
-Route.put('/staff/:id', validator.body(schema.transaksi), auth, function(
-  req,
-  res
-) {
-  if (req.userData.role === 'admin') {
-    admin.upd(req, res);
-  } else {
-    res.sendStatus(403);
+Route.put(
+  '/staff/:id',
+  validator.body(schema.staff),
+  validator.params(schema.id),
+  auth,
+  function(req, res) {
+    if (req.userData.role === 'admin') {
+      admin.upd(req, res);
+    } else {
+      res.sendStatus(403);
+    }
   }
-});
-Route.delete('/staff/:id', validator.body(schema.transaksi), function(
+);
+Route.delete('/staff/:id', validator.params(schema.id), auth, function(
   req,
   res
 ) {
@@ -275,7 +299,10 @@ Route.delete('/staff/:id', validator.body(schema.transaksi), function(
 });
 
 //untuk riwayat
-Route.get('/riwayat', auth, function(req, res) {
+Route.get('/riwayat', validator.query(schema.getting), auth, function(
+  req,
+  res
+) {
   if (req.userData.role === 'admin') {
     admin.get(req, res);
   } else if (req.userData.role === 'user') {
@@ -284,7 +311,10 @@ Route.get('/riwayat', auth, function(req, res) {
     res.sendStatus(403);
   }
 });
-Route.get('/riwayat/:id', auth, function(req, res) {
+Route.get('/riwayat/:id', validator.params(schema.id), auth, function(
+  req,
+  res
+) {
   if (req.userData.role === 'admin') {
     admin.get(req, res);
   } else if (req.userData.role === 'user') {
@@ -293,7 +323,7 @@ Route.get('/riwayat/:id', auth, function(req, res) {
     res.sendStatus(403);
   }
 });
-Route.post('/riwayat', validator.body(schema.transaksi), auth, function(
+Route.post('/riwayat', validator.body(schema.riwayat), auth, function(
   req,
   res
 ) {
@@ -305,19 +335,22 @@ Route.post('/riwayat', validator.body(schema.transaksi), auth, function(
     res.sendStatus(403);
   }
 });
-Route.put('/riwayat/:id', validator.body(schema.transaksi), auth, function(
-  req,
-  res
-) {
-  if (req.userData.role === 'admin') {
-    admin.upd(req, res);
-  } else if (req.userData.role === 'user') {
-    user.upd(req, res);
-  } else {
-    res.sendStatus(403);
+Route.put(
+  '/riwayat/:id',
+  validator.body(schema.riwayat),
+  validator.params(schema.id),
+  auth,
+  function(req, res) {
+    if (req.userData.role === 'admin') {
+      admin.upd(req, res);
+    } else if (req.userData.role === 'user') {
+      user.upd(req, res);
+    } else {
+      res.sendStatus(403);
+    }
   }
-});
-Route.delete('/riwayat/:id', validator.body(schema.transaksi), auth, function(
+);
+Route.delete('/riwayat/:id', validator.params(schema.id), auth, function(
   req,
   res
 ) {
@@ -338,7 +371,7 @@ Route.get('/supir', validator.query(schema.getting), auth, function(req, res) {
     res.sendStatus(403);
   }
 });
-Route.get('/supir/:id', auth, function(req, res) {
+Route.get('/supir/:id', validator.params(schema.id), auth, function(req, res) {
   if (req.userData.role === 'admin') {
     admin.get(req, res);
   } else {
@@ -352,14 +385,23 @@ Route.post('/supir', validator.body(schema.supir), auth, function(req, res) {
     res.sendStatus(403);
   }
 });
-Route.put('/supir/:id', validator.body(schema.supir), auth, function(req, res) {
-  if (req.userData.role === 'admin') {
-    admin.upd(req, res);
-  } else {
-    res.sendStatus(403);
+Route.put(
+  '/supir/:id',
+  validator.body(schema.supir),
+  validator.params(schema.id),
+  auth,
+  function(req, res) {
+    if (req.userData.role === 'admin') {
+      admin.upd(req, res);
+    } else {
+      res.sendStatus(403);
+    }
   }
-});
-Route.delete('/supir/:id', auth, function(req, res) {
+);
+Route.delete('/supir/:id', validator.params(schema.id), auth, function(
+  req,
+  res
+) {
   if (req.userData.role === 'admin') {
     admin.del(req, res);
   } else {
@@ -368,14 +410,14 @@ Route.delete('/supir/:id', auth, function(req, res) {
 });
 
 //untuk jenis_mobil
-Route.get('/jenis', auth, function(req, res) {
+Route.get('/jenis', validator.query(schema.getting), auth, function(req, res) {
   if (req.userData.role === 'admin') {
     admin.get(req, res);
   } else {
     res.sendStatus(403);
   }
 });
-Route.get('/jenis/:id', auth, function(req, res) {
+Route.get('/jenis/:id', validator.params(schema.id), auth, function(req, res) {
   if (req.userData.role === 'admin') {
     admin.get(req, res);
   } else {
@@ -389,14 +431,23 @@ Route.post('/jenis', validator.body(schema.mobil), auth, function(req, res) {
     res.sendStatus(403);
   }
 });
-Route.put('/jenis/:id', validator.body(schema.mobil), auth, function(req, res) {
-  if (req.userData.role === 'admin') {
-    admin.upd(req, res);
-  } else {
-    res.sendStatus(403);
+Route.put(
+  '/jenis/:id',
+  validator.body(schema.mobil),
+  validator.params(schema.id),
+  auth,
+  function(req, res) {
+    if (req.userData.role === 'admin') {
+      admin.upd(req, res);
+    } else {
+      res.sendStatus(403);
+    }
   }
-});
-Route.delete('/jenis/:id', auth, function(req, res) {
+);
+Route.delete('/jenis/:id', validator.params(schema.id), auth, function(
+  req,
+  res
+) {
   if (req.userData.role === 'admin') {
     admin.del(req, res);
   } else {
