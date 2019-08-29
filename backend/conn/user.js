@@ -71,36 +71,39 @@ module.exports = {
     switch (path) {
       case '/mobil':
         sql =
-          'SELECT mobil.id,jenis_kendaraan.jenis_mobil,mobil.plat,mobil.banyak_penumpang,mobil.harga,mobil.status FROM mobil JOIN jenis_kendaraan  ON mobil.id_jenis_mobil = jenis_kendaraan.id ';
+          'SELECT mobil.id AS main_id, mobil.*,jenis_kendaraan.* FROM mobil JOIN jenis_kendaraan  ON mobil.id_jenis_mobil = jenis_kendaraan.id ';
         srcby = 'plat';
         thru = true;
         break;
       case '/sewa':
-        sql = `SELECT sewa.id,jenis_kendaraan.jenis_mobil, user.email, sewa.penggunaan_supir, sewa.mulai_sewa, sewa.akhir_sewa, sewa.lokasi_pickup, sewa.lokasi_destinasi FROM sewa join jenis_kendaraan on sewa.id_jenis_mobil = jenis_kendaraan.id join user on user.id = sewa.id_user where user.id=${req.userData.id} `;
+        sql =
+          'SELECT sewa.id AS main_id,jenis_kendaraan.*,sewa.*,mobil.* FROM sewa join jenis_kendaraan on sewa.id_jenis_mobil = jenis_kendaraan.id join user on user.id = sewa.id_user join mobil on mobil.id_jenis_mobil = jenis_kendaraan.id ';
         thru = true;
         break;
       case '/transaksi':
-        sql = `SELECT sewa.*, transaksi.kode_transaksi, transaksi.biaya, transaksi.status_transaksi FROM sewa join transaksi on transaksi.id_sewa = sewa.id where sewa.id_user=${req.userData.id} `;
+        sql =
+          'SELECT sewa.id AS main_id, transaksi.*,jenis_kendaraan.*,sewa.*,mobil.*  FROM sewa join transaksi on transaksi.id_sewa = sewa.id join jenis_kendaraan on sewa.id_jenis_mobil = jenis_kendaraan.id join user on user.id = sewa.id_user join mobil on mobil.id_jenis_mobil = jenis_kendaraan.id ';
         thru = true;
         break;
       case '/riwayat':
-        sql = `SELECT riwayat_penyewaan.*,transaksi.kode_transaksi,transaksi.biaya,transaksi.status_transaksi, sewa.id_user FROM riwayat_penyewaan JOIN transaksi ON riwayat_penyewaan.id_transaksi = transaksi.id join sewa on sewa.id = transaksi.id_sewa where sewa.id_user=${req.userData.id} `;
+        sql =
+          'SELECT riwayat_penyewaan.*, transaksi.kode_transaksi,transaksi.biaya,transaksi.status_transaksi FROM riwayat_penyewaan JOIN transaksi ON riwayat_penyewaan.id_transaksi = transaksi.id ';
         thru = true;
         break;
       case '/mobil/:id':
-        sql = `SELECT mobil.id,jenis_kendaraan.jenis_mobil,mobil.plat,mobil.banyak_penumpang,mobil.harga,mobil.status FROM mobil JOIN jenis_kendaraan  ON mobil.id_jenis_mobil = jenis_kendaraan.id where id=${req.params.id} `;
+        sql = `SELECT mobil.id AS main_id, mobil.*,jenis_kendaraan.* FROM mobil JOIN jenis_kendaraan  ON mobil.id_jenis_mobil = jenis_kendaraan.id where id=${req.params.id} `;
         thru = true;
         break;
       case '/sewa/:id':
-        sql = `SELECT sewa.id,jenis_kendaraan.jenis_mobil, user.email, sewa.penggunaan_supir, sewa.mulai_sewa, sewa.akhir_sewa, sewa.lokasi_pickup, sewa.lokasi_destinasi FROM sewa join jenis_kendaraan on sewa.id_jenis_mobil = jenis_kendaraan.id join user on user.id = sewa.id_user where user.id=${req.userData.id} and where id=${req.params.id} `;
+        sql = `SELECT sewa.id AS main_id,jenis_kendaraan.*,sewa.*,mobil.* FROM sewa join jenis_kendaraan on sewa.id_jenis_mobil = jenis_kendaraan.id join user on user.id = sewa.id_user join mobil on mobil.id_jenis_mobil = jenis_kendaraan.id where id=${req.params.id} `;
         thru = true;
         break;
       case '/transaksi/:id':
-        sql = `SELECT sewa.*, transaksi.kode_transaksi, transaksi.biaya, transaksi.status_transaksi FROM sewa join transaksi on transaksi.id_sewa = sewa.id where sewa.id_user=${req.userData.id} and where id=${req.params.id} `;
+        sql = `SELECT sewa.id AS main_id, transaksi.*,jenis_kendaraan.*,sewa.*,mobil.*  FROM sewa join transaksi on transaksi.id_sewa = sewa.id join jenis_kendaraan on sewa.id_jenis_mobil = jenis_kendaraan.id join user on user.id = sewa.id_user join mobil on mobil.id_jenis_mobil = jenis_kendaraan.id where id=${req.params.id} `;
         thru = true;
         break;
       case '/riwayat/:id':
-        sql = `SELECT sewa.*, transaksi.kode_transaksi, transaksi.biaya, transaksi.status_transaksi FROM sewa join transaksi on transaksi.id_sewa = sewa.id where sewa.id_user=${req.userData.id} and where id=${req.params.id} `;
+        sql = `SELECT riwayat_penyewaan.*, transaksi.kode_transaksi,transaksi.biaya,transaksi.status_transaksi FROM riwayat_penyewaan JOIN transaksi ON riwayat_penyewaan.id_transaksi = transaksi.id where id=${req.params.id} `;
         thru = true;
         break;
       default:
