@@ -147,7 +147,7 @@ module.exports = {
       body.lokasi_pickup,
       body.lokasi_destinasi
     ];
-    let pass = false;
+    let pass = true;
 
     if (pass) {
       connection.execute(sql, val, (err, results) => {
@@ -155,10 +155,31 @@ module.exports = {
           res.sendStatus(500);
           console.log(err);
         } else {
-          res.json(results);
+          let { insertId } = results;
+
           connection.execute(
-            `SELECT sewa.id AS main_id,jenis_kendaraan.*,sewa.*,mobil.*,user.* FROM sewa join jenis_kendaraan on sewa.id_jenis_mobil = jenis_kendaraan.id join user on user.id = sewa.id_user join mobil on mobil.id_jenis_mobil = jenis_kendaraan.id where id_user = ${req.userData.id} AND sewa.id = ${results.InsertedId} `,
-            (err, results) => {}
+            `SELECT * FROM mobil where id_jenis_mobil=? and status=0`,
+            [body.id_jenis_mobil],
+
+            (err, resultsss) => {
+              if (resultsss === undefined) {
+                res.json({ msg: 'kosong' });
+              } else {
+                var kode = 'trs' + insertId;
+                var date1 = Date.parse(body.mulai_sewa.replace('-', '/', 'g'));
+                var date2 = Date.parse(body.akhir_sewa.replace('-', '/', 'g'));
+                var hours = (date2 - date1) / 3600000;
+                var hrg = hours * parseInt(resultsss[0].harga);
+
+                connection.execute(
+                  'INSERT INTO `transaksi`(`kode_transaksi`, `id_sewa`, `biaya`, `status_transaksi`) VALUES (?,?,?,?)',
+                  [kode, insertId, hrg, 0],
+                  (err, lmao) => {
+                    res.json(lmao);
+                  }
+                );
+              }
+            }
           );
         }
       });
