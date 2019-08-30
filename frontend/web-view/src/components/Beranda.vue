@@ -91,10 +91,10 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>TR101</td>
-                  <td>Selesai</td>
+                <tr v-for="(riwayat, index) in riwayat" :key="riwayat.id">
+                  <td scope="row">{{ index + 1 }}</td>
+                  <td>{{ riwayat.id_transaksi }}</td>
+                  <td v-if="riwayat.status_riwayat == 1">Selesai</td>
                   <td>
                     <router-link to="/riwayat" class="btn btn-primary">Lihat</router-link>
                   </td>
@@ -130,7 +130,28 @@
 
 <script>
 import Navbar from "@/components/Template/Navbar";
+import axios from "axios";
+
 export default {
+  data() {
+    return {
+      riwayat: [],
+      apiToken: ""
+    };
+  },
+  created() {
+    this.apiToken = localStorage.getItem("user-token");
+
+    axios
+      .get("http://localhost:5000/api/riwayat", {
+        headers: {
+          Authorization: "Bearer " + this.apiToken
+        }
+      })
+      .then(response => {
+        this.riwayat = response.data;
+      });
+  },
   components: {
     Navbar
   }

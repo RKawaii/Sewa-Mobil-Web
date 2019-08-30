@@ -62,6 +62,7 @@
                       class="btn btn-warning"
                       data-toggle="modal"
                       data-target="#modalUbah"
+                      @click="getSupir(supir)"
                     >
                       <i class="fas fa-edit"></i> Ubah
                     </button>
@@ -163,34 +164,29 @@
             </div>
             <div class="modal-body">
               <!-- form -->
-
-              <div class="form-group">
-                <label for="kode">Kode</label>
-                <input type="text" name="kode" class="form-control" id="kode" value="SP101" />
-              </div>
               <div class="form-group">
                 <label for="nama">Nama</label>
-                <input type="text" name="nama" class="form-control" id="nama" value="Andi" />
-              </div>
-              <div class="form-group">
-                <label for="alamat">Alamat</label>
-                <textarea name="alamat" class="form-control" id="alamat" rows="3">Kelapa Gading</textarea>
-              </div>
-              <div class="form-group">
-                <label for="telepon">Telepon</label>
                 <input
-                  type="number"
-                  name="telepon"
+                  type="text"
+                  v-model="dataUbah.nama"
                   class="form-control"
-                  id="telepon"
-                  value="08999758"
+                  id="nama"
+                  value="Andi"
                 />
               </div>
               <div class="form-group">
+                <label for="alamat">Alamat</label>
+                <textarea v-model="dataUbah.alamat" class="form-control" id="alamat" rows="3"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="telepon">Telepon</label>
+                <input type="number" v-model="dataUbah.telepon" class="form-control" id="telepon" />
+              </div>
+              <div class="form-group">
                 <label for="status">Status</label>
-                <select class="form-control" id="status" name="status">
+                <select class="form-control" id="status" v-model="dataUbah.status">
                   <option value="0">Tidak Dipakai</option>
-                  <option value="1" selected>Sedang Dipakai</option>
+                  <option value="1">Sedang Dipakai</option>
                 </select>
               </div>
             </div>
@@ -199,7 +195,11 @@
                 <i class="fas fa-undo"></i>
                 Kembali
               </button>
-              <button type="button" class="btn btn-success">
+              <button
+                type="button"
+                class="btn btn-success"
+                @click="ubahSupir(dataUbah, dataUbah.id)"
+              >
                 <i class="fas fa-edit"></i> Ubah
               </button>
             </div>
@@ -220,6 +220,13 @@ export default {
       supir: [],
       apiToken: "",
       dataHapus: {},
+      dataUbah: {},
+      ubah: {
+        nama: "",
+        alamat: "",
+        telepon: "",
+        status: ""
+      },
       supir_id: ""
     };
   },
@@ -237,6 +244,24 @@ export default {
       });
   },
   methods: {
+    getSupir(dataUbah) {
+      this.dataUbah = dataUbah;
+    },
+    ubahSupir(dataUbah, id) {
+      this.ubah.nama = dataUbah.nama;
+      this.ubah.alamat = dataUbah.alamat;
+      this.ubah.telepon = dataUbah.telepon;
+      this.ubah.status = dataUbah.status;
+      this.staff_id = id;
+
+      axios.put("http://localhost:5000/api/supir/" + this.staff_id, this.ubah, {
+        headers: {
+          Authorization: "Bearer " + this.apiToken
+        }
+      });
+
+      window.location.reload();
+    },
     dataHapusSupir(dataHapus, id) {
       this.dataHapus = dataHapus;
       this.supir_id = id;

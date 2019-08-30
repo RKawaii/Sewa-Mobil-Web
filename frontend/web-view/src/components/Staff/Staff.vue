@@ -59,6 +59,7 @@
                       class="btn btn-warning"
                       data-toggle="modal"
                       data-target="#modalUbah"
+                      @click="getStaff(staff)"
                     >
                       <i class="fas fa-edit"></i> Ubah
                     </button>
@@ -162,39 +163,23 @@
               <!-- form -->
               <div class="form-group">
                 <label for="kode">Kode</label>
-                <input type="text" name="kode" class="form-control" id="kode" value="ST101" />
+                <input type="text" class="form-control" id="kode" v-model="dataUbah.kode_staff" />
               </div>
               <div class="form-group">
                 <label for="nama">Nama</label>
-                <input type="text" name="nama" class="form-control" id="nama" value="Tini Sumiardi" />
+                <input type="text" class="form-control" id="nama" v-model="dataUbah.nama_staff" />
               </div>
               <div class="form-group">
                 <label for="username">Username</label>
-                <input
-                  type="text"
-                  name="username"
-                  class="form-control"
-                  id="username"
-                  value="tini123"
-                />
+                <input type="text" class="form-control" id="username" v-model="dataUbah.username" />
               </div>
               <div class="form-group">
                 <label for="password">Password</label>
                 <input
                   type="password"
-                  name="password"
                   class="form-control"
                   id="password"
-                  value="tinis123"
-                />
-              </div>
-              <div class="form-group">
-                <label for="konfirmasi-password">Konfirmasi Password</label>
-                <input
-                  type="password"
-                  name="konfirmasi-password"
-                  class="form-control"
-                  id="konfirmasi-password"
+                  v-model="dataUbah.password"
                 />
               </div>
             </div>
@@ -203,7 +188,11 @@
                 <i class="fas fa-undo"></i>
                 Kembali
               </button>
-              <button type="button" class="btn btn-success">
+              <button
+                type="button"
+                class="btn btn-success"
+                @click="ubahStaff(dataUbah, dataUbah.id)"
+              >
                 <i class="fas fa-edit"></i> Ubah
               </button>
             </div>
@@ -224,6 +213,13 @@ export default {
       staff: [],
       apiToken: "",
       dataHapus: {},
+      dataUbah: {},
+      ubah: {
+        kode: "",
+        nama: "",
+        username: "",
+        password: ""
+      },
       staff_id: ""
     };
   },
@@ -241,6 +237,24 @@ export default {
       });
   },
   methods: {
+    getStaff(dataUbah) {
+      this.dataUbah = dataUbah;
+    },
+    ubahStaff(dataUbah, id) {
+      this.ubah.kode = dataUbah.kode_staff;
+      this.ubah.nama = dataUbah.nama_staff;
+      this.ubah.username = dataUbah.username;
+      this.ubah.password = dataUbah.password;
+      this.staff_id = id;
+
+      axios.put("http://localhost:5000/api/staff/" + this.staff_id, this.ubah, {
+        headers: {
+          Authorization: "Bearer " + this.apiToken
+        }
+      });
+
+      window.location.reload();
+    },
     dataHapusStaff(dataHapus, id) {
       this.dataHapus = dataHapus;
       this.staff_id = id;
@@ -254,7 +268,6 @@ export default {
         })
         .then(response => {
           this.dataHapus.splice(index, 1);
-          console.log("berhasil hapus");
         });
 
       window.location.reload();

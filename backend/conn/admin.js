@@ -237,7 +237,7 @@ module.exports = {
     switch (path) {
       case '/mobil/:id':
         sql =
-          'UPDATE `mobil` SET `id_jenis_mobil`=?,`plat`=?,`banyak_penumpang`=?,`harga`=?,`status`=? WHERE id=?';
+          'UPDATE `mobil` SET `id_jenis_mobil`=?,`plat`=?,`kursi`=?,`harga`=?,`status`=? WHERE id=?';
         val = [
           body.id_jenis_mobil,
           body.plat,
