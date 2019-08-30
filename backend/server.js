@@ -99,8 +99,6 @@ Route.get('/sewa', validator.query(schema.getting), auth, function(req, res) {
   }
 });
 Route.get('/sewa/:id', validator.params(schema.id), auth, function(req, res) {
-  console.log(req.userData);
-
   if (req.userData.role === 'admin') {
     admin.get(req, res);
   } else if (req.userData.role === 'user') {
