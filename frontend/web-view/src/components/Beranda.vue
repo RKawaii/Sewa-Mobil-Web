@@ -1,54 +1,77 @@
 <template>
   <navbar>
     <div class="container">
-      <div class="row justify-content-center mt-5">
-        <div class="col-md-3 col-sm-12">
-          <div class="card">
-            <div class="card-body">
-              <div class="media">
-                <i class="fas fa-user fa-5x mr-4"></i>
-                <div class="media-body">
-                  <h5>PELANGGAN</h5>
-                  <h3>20</h3>
+      <div v-if="dataRole == 'admin'">
+        <div class="row justify-content-center mt-5">
+          <div class="col-md-3 col-sm-12">
+            <div class="card">
+              <div class="card-body">
+                <div class="media">
+                  <i class="fas fa-user fa-5x mr-4"></i>
+                  <div class="media-body">
+                    <h5>PELANGGAN</h5>
+                    <h3>20</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 col-sm-12">
+            <div class="card">
+              <div class="card-body">
+                <div class="media">
+                  <i class="fas fa-car fa-5x mr-4"></i>
+                  <div class="media-body">
+                    <h5>MOBIL</h5>
+                    <h3>20</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 col-sm-12">
+            <div class="card">
+              <div class="card-body">
+                <div class="media">
+                  <i class="fas fa-users fa-5x mr-4"></i>
+                  <div class="media-body">
+                    <h5>STAFF</h5>
+                    <h3>20</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 col-sm-12">
+            <div class="card">
+              <div class="card-body">
+                <div class="media">
+                  <i class="fas fa-hand-pointer fa-5x mr-4"></i>
+                  <div class="media-body">
+                    <h5>PENYEWAAN</h5>
+                    <h3>20</h3>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-md-3 col-sm-12">
-          <div class="card">
-            <div class="card-body">
-              <div class="media">
-                <i class="fas fa-car fa-5x mr-4"></i>
-                <div class="media-body">
-                  <h5>MOBIL</h5>
-                  <h3>20</h3>
+
+        <!-- panel profil -->
+        <div class="row mt-5">
+          <div class="col-md-12 col-sm-12">
+            <div class="card mb-3 card-profile">
+              <div class="row no-gutters">
+                <div class="col-md-4">
+                  <img src="@/assets/images/dummy.jpg" class="card-img img-fluid" alt="User Image" />
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3 col-sm-12">
-          <div class="card">
-            <div class="card-body">
-              <div class="media">
-                <i class="fas fa-users fa-5x mr-4"></i>
-                <div class="media-body">
-                  <h5>STAFF</h5>
-                  <h3>20</h3>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3 col-sm-12">
-          <div class="card">
-            <div class="card-body">
-              <div class="media">
-                <i class="fas fa-hand-pointer fa-5x mr-4"></i>
-                <div class="media-body">
-                  <h5>PENYEWAAN</h5>
-                  <h3>20</h3>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h3 class="card-title">Mathias</h3>
+                    <p class="card-text">Admin</p>
+                    <p class="card-text">Terdaftar tanggal 19 Agustus 2019</p>
+                    <router-link to="/profil" class="btn btn-primary">Lihat Profil</router-link>
+                  </div>
                 </div>
               </div>
             </div>
@@ -56,20 +79,50 @@
         </div>
       </div>
 
-      <!-- panel profil -->
-      <div class="row mt-5">
-        <div class="col-md-12 col-sm-12">
-          <div class="card mb-3 card-profile">
-            <div class="row no-gutters">
-              <div class="col-md-4">
-                <img src="@/assets/images/dummy.jpg" class="card-img img-fluid" alt="User Image" />
+      <div v-else>
+        <div class="row mt-5">
+          <!-- panel peneyewaan -->
+          <div class="col-md-6 col-sm-6">
+            <div class="card">
+              <div class="card">
+                <div class="row no-gutters">
+                  <div class="col-md-4">
+                    <img
+                      src="@/assets/images/sewa.png"
+                      class="card-img img-fluid panel-image"
+                      alt="User Image"
+                    />
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <h3 class="card-title">Penyewaan</h3>
+                      <p class="card-text">Total Penyewaan: 20</p>
+                      <p class="card-text">Total Transaksi: 20</p>
+                      <a href="/transaksi" class="btn btn-primary">Lihat Detail</a>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="col-md-8">
-                <div class="card-body">
-                  <h3 class="card-title">Mathias</h3>
-                  <p class="card-text">Admin</p>
-                  <p class="card-text">Terdaftar tanggal 19 Agustus 2019</p>
-                  <router-link to="/profil" class="btn btn-primary">Lihat Profil</router-link>
+            </div>
+          </div>
+          <!-- panel profil -->
+          <div class="col-md-6 col-sm-6">
+            <div class="card">
+              <div class="row no-gutters">
+                <div class="col-md-4">
+                  <img
+                    src="@/assets/images/dummy.jpg"
+                    class="card-img img-fluid panel-image"
+                    alt="User Image"
+                  />
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h3 class="card-title">Mathias</h3>
+                    <p class="card-text">Admin</p>
+                    <p class="card-text">Terdaftar tanggal 19 Agustus 2019</p>
+                    <a href="/profil" class="btn btn-primary">Lihat Profil</a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -136,11 +189,13 @@ export default {
   data() {
     return {
       riwayat: [],
-      apiToken: ""
+      apiToken: "",
+      dataRole: ""
     };
   },
   created() {
     this.apiToken = localStorage.getItem("user-token");
+    this.dataRole = localStorage.getItem("user-role");
 
     axios
       .get("http://localhost:5000/api/riwayat", {

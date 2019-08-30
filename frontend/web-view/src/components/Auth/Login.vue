@@ -76,6 +76,7 @@ export default {
           this.loginToken = request.data.Token;
 
           localStorage.setItem("user-token", this.loginToken);
+          localStorage.setItem("user-role", this.loginInput.role);
 
           this.$router.push("/beranda");
         })
