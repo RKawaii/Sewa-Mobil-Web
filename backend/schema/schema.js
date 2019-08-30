@@ -74,12 +74,9 @@ const riwayat = joi.object({
     })
 });
 const sewa = joi.object({
-  id_user: joi
-    .number()
-    .required()
-    .error(() => {
-      return '400';
-    }),
+  id_user: joi.number().error(() => {
+    return '400';
+  }),
   id_jenis_mobil: joi
     .number()
     .required()
