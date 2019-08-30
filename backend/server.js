@@ -15,20 +15,20 @@ const cors = require('cors');
 const auth = require('./middleware/auth');
 //mysql connection
 const admin = require('./conn/admin');
-const admin = require('./conn/staff');
+const staff = require('./conn/staff');
 const user = require('./conn/user');
 
 //Express Route
-//login and regis
+//login
 
 Route.post('/login', validator.body(schema.login), function(req, res) {
   if (req.body.role === 'admin') {
     admin.login(req, res);
-  } else if(req.body.role === 'staff'){
-	  staff.login(req, res);
-  }else {
+  } else if (req.body.role === 'staff') {
+    staff.login(req, res);
+  } else if (req.body.role === 'user') {
     user.login(req, res);
-  }
+  } else res.sendStatus(404);
 });
 Route.get('/login', auth, function(req, res) {
   if (
@@ -202,6 +202,8 @@ Route.get('/transaksi', validator.query(schema.getting), auth, function(
     admin.get(req, res);
   } else if (req.userData.role === 'user') {
     user.get(req, res);
+  } else if (req.userData.role === 'staff') {
+    staff.get(req, res);
   } else {
     res.sendStatus(403);
   }
@@ -214,6 +216,8 @@ Route.get('/transaksi/:id', validator.params(schema.id), auth, function(
     admin.get(req, res);
   } else if (req.userData.role === 'user') {
     user.get(req, res);
+  } else if (req.userData.role === 'staff') {
+    staff.get(req, res);
   } else {
     res.sendStatus(403);
   }
@@ -240,6 +244,8 @@ Route.put(
       admin.upd(req, res);
     } else if (req.userData.role === 'user') {
       user.upd(req, res);
+    } else if (req.userData.role === 'staff') {
+      staff.upd(req, res);
     } else {
       res.sendStatus(403);
     }
