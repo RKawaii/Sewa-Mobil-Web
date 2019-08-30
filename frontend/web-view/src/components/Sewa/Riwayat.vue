@@ -26,11 +26,6 @@
             <i class="fas fa-undo"></i>
             Kembali
           </router-link>
-          <a href="../form/tambah-pelanggan.html" class="btn btn-danger float-right mr-3">
-            <i class="fas fa-trash"></i>
-            Hapus
-            Semua
-          </a>
         </div>
       </div>
       <!-- tabel -->
@@ -47,16 +42,17 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(rw, index) in riwayat" :key="rw.id">
+                <tr v-for="(riwayat, index) in riwayat" :key="riwayat.id">
                   <th scope="row">{{ index + 1 }}</th>
-                  <td>{{ rw.id_transaksi }}</td>
-                  <td v-if="rw.status_riwayat == 1">Selesai</td>
+                  <td>{{ riwayat.kode_transaksi }}</td>
+                  <td v-if="riwayat.status_riwayat == 1">Selesai</td>
                   <td>
                     <button
                       type="button"
                       class="btn btn-danger"
                       data-toggle="modal"
                       data-target="#modalKonfirmasi"
+                      @click="dataHapusRiwayat(riwayat, riwayat.id)"
                     >
                       <i class="fas fa-edit"></i> Hapus
                     </button>
@@ -116,7 +112,11 @@
                 <i class="fas fa-times"></i>
                 Tidak
               </button>
-              <button type="button" class="btn btn-success" data-dismiss="modal">
+              <button
+                type="button"
+                class="btn btn-success"
+                @click="hapusRiwayat(dataHapus, riwayat_id)"
+              >
                 <i class="fas fa-check-circle"></i>
                 Ya
               </button>
@@ -136,7 +136,9 @@ export default {
   data() {
     return {
       riwayat: [],
-      apiToken: ""
+      apiToken: "",
+      dataHapus: {},
+      riwayat_id: ""
     };
   },
   created() {
@@ -151,6 +153,26 @@ export default {
       .then(response => {
         this.riwayat = response.data;
       });
+  },
+  methods: {
+    dataHapusRiwayat(dataHapus, id) {
+      this.dataHapus = dataHapus;
+      this.riwayat_id = id;
+    },
+    hapusRiwayat(dataHapus, id) {
+      axios
+        .delete("http://localhost:5000/api/riwayat/" + id, {
+          headers: {
+            Authorization: "Bearer " + this.apiToken
+          }
+        })
+        .then(response => {
+          this.dataHapus.splice(index, 1);
+          alert("berhasil hapus");
+        });
+
+      window.location.reload();
+    }
   },
   components: {
     Navbar

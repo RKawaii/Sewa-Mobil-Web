@@ -56,7 +56,7 @@
                   <th scope="row">{{ index + 1 }}</th>
                   <td>{{ mobil.plat }}</td>
                   <td>{{ mobil.jenis_mobil }}</td>
-                  <td>{{ mobil.banyak_penumpang }}</td>
+                  <td>{{ mobil.kursi }}</td>
                   <td>{{ mobil.harga }}</td>
                   <td v-if="mobil.status == '1'">Sedang Dipakai</td>
                   <td v-else>Tidak Dipakai</td>
@@ -66,7 +66,7 @@
                       class="btn btn-warning"
                       data-toggle="modal"
                       data-target="#modalUbah"
-                      @click="dataUpdate(mobil, mobil.id)"
+                      @click="getMobil(mobil)"
                     >
                       <i class="fas fa-edit"></i> Ubah
                     </button>
@@ -75,7 +75,7 @@
                       class="btn btn-danger ml-2"
                       data-toggle="modal"
                       data-target="#modalKonfirmasi"
-                      @click="dataHapusMobil(mobil, mobil.id)"
+                      @click="dataHapusMobil(mobil, mobil.main_id)"
                     >
                       <i class="fas fa-edit"></i> Hapus
                     </button>
@@ -169,12 +169,8 @@
             <div class="modal-body">
               <!-- form -->
               <div class="form-group">
-                <label for="plat">Nomor Plat</label>
-                <input type="text" v-model="dataUbah.plat" class="form-control" id="plat" />
-              </div>
-              <div class="form-group">
                 <label for="jenis">Jenis</label>
-                <select class="form-control" id="jenis" v-model="dataUbah.jenis">
+                <select class="form-control" id="jenis" v-model="dataUbah.id_jenis_mobil">
                   <option
                     v-for="jenis in jenisMobil"
                     :key="jenis.id"
@@ -183,17 +179,12 @@
                 </select>
               </div>
               <div class="form-group">
-                <label for="merk">Merk</label>
-                <input type="text" v-model="dataUbah.merk" class="form-control" id="merk" />
+                <label for="plat">Nomor Plat</label>
+                <input type="text" v-model="dataUbah.plat" class="form-control" id="plat" />
               </div>
               <div class="form-group">
-                <label for="kapasitas">Kapasitas</label>
-                <input
-                  type="number"
-                  v-model="dataUbah.banyak_penumpang"
-                  class="form-control"
-                  id="kapasitas"
-                />
+                <label for="kursi">Kapasitas</label>
+                <input type="number" v-model="dataUbah.kursi" class="form-control" id="kursi" />
               </div>
               <div class="form-group">
                 <label for="harga">Harga</label>
@@ -212,7 +203,11 @@
                 <i class="fas fa-undo"></i>
                 Kembali
               </button>
-              <button @click.prevent="ubahMobil(dataUbah.id)" type="button" class="btn btn-success">
+              <button
+                @click="ubahMobil(dataUbah, dataUbah.main_id)"
+                type="button"
+                class="btn btn-success"
+              >
                 <i class="fas fa-edit"></i> Ubah
               </button>
             </div>
@@ -233,10 +228,11 @@ export default {
       mobil: [],
       apiToken: "",
       dataHapus: {},
-      dataUbah: {
-        jenis: "",
+      dataUbah: {},
+      ubah: {
+        id_jenis_mobil: "",
         plat: "",
-        kapasitas: "",
+        kursi: "",
         harga: "",
         status: ""
       },
@@ -268,20 +264,22 @@ export default {
       });
   },
   methods: {
-    dataUpdate(dataUbah, id) {
+    getMobil(dataUbah) {
       this.dataUbah = dataUbah;
-      this.mobil_id = id;
     },
-    ubahMobil(id) {
-      axios
-        .put("http://localhost:5000/api/mobil/" + id, this.dataUbah, {
-          headers: {
-            Authorization: "Bearer " + this.apiToken
-          }
-        })
-        .then(response => {
-          console.log("berhasil ubah");
-        });
+    ubahMobil(dataUbah, id) {
+      this.ubah.id_jenis_mobil = dataUbah.id_jenis_mobil;
+      this.ubah.plat = dataUbah.plat;
+      this.ubah.kursi = dataUbah.kursi;
+      this.ubah.harga = dataUbah.harga;
+      this.ubah.status = dataUbah.status;
+      this.mobil_id = id;
+
+      axios.put("http://localhost:5000/api/mobil/" + this.mobil_id, this.ubah, {
+        headers: {
+          Authorization: "Bearer " + this.apiToken
+        }
+      });
 
       window.location.reload();
     },
@@ -291,14 +289,13 @@ export default {
     },
     hapusMobil(dataHapus, id) {
       axios
-        .delete("http://localhost:5000/api/mobil/" + id, {
+        .delete("http://localhost:5000/api/mobil/" + this.mobil_id, {
           headers: {
             Authorization: "Bearer " + this.apiToken
           }
         })
         .then(response => {
-          this.dataHapusMobil.splice(index, 1);
-          console.log("berhasil hapus");
+          this.dataHapus.splice(index, 1);
         });
 
       window.location.reload();
