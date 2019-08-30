@@ -115,7 +115,7 @@ module.exports = {
         thru = true;
         break;
       case '/sewa/:id':
-        sql = `SELECT sewa.id AS main_id,jenis_kendaraan.*,sewa.*,mobil.* FROM sewa join jenis_kendaraan on sewa.id_jenis_mobil = jenis_kendaraan.id join user on user.id = sewa.id_user join mobil on mobil.id_jenis_mobil = jenis_kendaraan.id where id=${req.params.id} `;
+        sql = `SELECT sewa.id AS main_id,jenis_kendaraan.*,sewa.*,mobil.*,user.* FROM sewa join jenis_kendaraan on sewa.id_jenis_mobil = jenis_kendaraan.id join user on user.id = sewa.id_user join mobil on mobil.id_jenis_mobil = jenis_kendaraan.id where id=${req.params.id} `;
         thru = true;
         break;
       case '/user/:id':
@@ -123,7 +123,7 @@ module.exports = {
         thru = true;
         break;
       case '/transaksi/:id':
-        sql = `SELECT sewa.id AS main_id, transaksi.*,jenis_kendaraan.*,sewa.*,mobil.*  FROM sewa join transaksi on transaksi.id_sewa = sewa.id join jenis_kendaraan on sewa.id_jenis_mobil = jenis_kendaraan.id join user on user.id = sewa.id_user join mobil on mobil.id_jenis_mobil = jenis_kendaraan.id where id=${req.params.id} `;
+        sql = `SELECT sewa.id AS main_id, transaksi.*,jenis_kendaraan.*,sewa.*,mobil.*,user.*  FROM sewa join transaksi on transaksi.id_sewa = sewa.id join jenis_kendaraan on sewa.id_jenis_mobil = jenis_kendaraan.id join user on user.id = sewa.id_user join mobil on mobil.id_jenis_mobil = jenis_kendaraan.id where id=${req.params.id} `;
         thru = true;
         break;
       case '/staff/:id':
