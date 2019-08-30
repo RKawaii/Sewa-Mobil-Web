@@ -109,7 +109,7 @@ Route.get('/sewa/:id', validator.params(schema.id), auth, function(req, res) {
 });
 Route.post('/sewa', validator.body(schema.sewa), auth, function(req, res) {
   if (req.userData.role === 'user') {
-    user.add(req, res);
+    user.sewa(req, res);
   } else {
     res.sendStatus(403);
   }
@@ -260,7 +260,7 @@ Route.get('/staff', validator.query(schema.getting), auth, function(req, res) {
     res.sendStatus(403);
   }
 });
-Route.get('/staff/id', validator.params(schema.id), auth, function(req, res) {
+Route.get('/staff/:id', validator.params(schema.id), auth, function(req, res) {
   if (req.userData.role === 'admin') {
     admin.get(req, res);
   } else {

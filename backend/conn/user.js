@@ -134,6 +134,38 @@ module.exports = {
       });
     } else res.sendStatus(404);
   },
+  sewa: (req, res) => {
+    const { body } = req;
+    let sql =
+      'INSERT INTO `sewa`(`id_user`, `id_jenis_mobil`, `penggunaan_supir`, `mulai_sewa`, `akhir_sewa`, `lokasi_pickup`, `lokasi_destinasi`) VALUES (?,?,?,?,?,?,?)';
+    let val = [
+      req.userData.id,
+      body.id_jenis_mobil,
+      body.penggunaan_supir,
+      body.mulai_sewa,
+      body.akhir_sewa,
+      body.lokasi_pickup,
+      body.lokasi_destinasi
+    ];
+    let pass = false;
+
+    if (pass) {
+      connection.execute(sql, val, (err, results) => {
+        if (err) {
+          res.sendStatus(500);
+          console.log(err);
+        } else {
+          res.json(results);
+          connection.execute(
+            `SELECT sewa.id AS main_id,jenis_kendaraan.*,sewa.*,mobil.*,user.* FROM sewa join jenis_kendaraan on sewa.id_jenis_mobil = jenis_kendaraan.id join user on user.id = sewa.id_user join mobil on mobil.id_jenis_mobil = jenis_kendaraan.id where id_user = ${req.userData.id} AND sewa.id = ${results.InsertedId} `,
+            (err, results) => {}
+          );
+        }
+      });
+    } else {
+      res.sendStatus(404);
+    }
+  },
   add: (req, res) => {
     const { path } = req.route;
     const { body } = req;
