@@ -36,17 +36,17 @@
               <thead>
                 <tr>
                   <th scope="col">Nomor</th>
-                  <th scope="col">Email User</th>
+                  <th scope="col">Username User</th>
                   <th scope="col">Plat Mobil</th>
                   <th scope="col">Aksi</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(sewa, index) in sewa" :key="sewa.id">
+                <tr v-for="(sewa, index) in sewa" :key="sewa.main_id">
                   <td scope="col">{{ index + 1 }}</td>
-                  <td scope="col">{{ sewa.email }}</td>
+                  <td scope="col">{{ sewa.username }}</td>
                   <td scope="col">{{ sewa.plat }}</td>
-                  <td>
+                  <td v-if="dataRole == 'admin'">
                     <button
                       type="button"
                       class="btn btn-info"
@@ -63,6 +63,17 @@
                       data-target="#modalKonfirmasi"
                     >
                       <i class="fas fa-edit"></i> Hapus
+                    </button>
+                  </td>
+                  <td v-else>
+                    <button
+                      type="button"
+                      class="btn btn-info"
+                      data-toggle="modal"
+                      data-target="#modalDetail1"
+                      @click="detailSewa(sewa, sewa.id)"
+                    >
+                      <i class="fas fa-info"></i> Detail
                     </button>
                   </td>
                 </tr>
@@ -176,10 +187,12 @@ export default {
       sewa: [],
       apiToken: "",
       dataDetailSewa: {},
-      sewa_id: ""
+      sewa_id: "",
+      dataRole: ""
     };
   },
   created() {
+    this.dataRole = localStorage.getItem("user-role");
     this.apiToken = localStorage.getItem("user-token");
 
     axios

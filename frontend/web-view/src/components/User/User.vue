@@ -44,19 +44,20 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(usr, index) in user" :key="usr.id">
+                <tr v-for="(user, index) in user" :key="user.id">
                   <th scope="row">{{ index + 1 }}</th>
-                  <td v-if="usr.UID === ''">---</td>
-                  <td v-else>{{ usr.UID }}</td>
-                  <td>{{ usr.telepon }}</td>
-                  <td>{{ usr.username }}</td>
-                  <td>{{ usr.email }}</td>
+                  <td v-if="user.UID === ''">---</td>
+                  <td v-else>{{ user.UID }}</td>
+                  <td>{{ user.telepon }}</td>
+                  <td>{{ user.username }}</td>
+                  <td>{{ user.email }}</td>
                   <td>
                     <button
                       type="button"
                       class="btn btn-warning"
                       data-toggle="modal"
                       data-target="#modalUbah"
+                      @click="getUser(user)"
                     >
                       <i class="fas fa-edit"></i> Ubah
                     </button>
@@ -65,7 +66,7 @@
                       class="btn btn-danger ml-2"
                       data-toggle="modal"
                       data-target="#modalKonfirmasi"
-                      @click="dataDelete(usr, usr.id)"
+                      @click="dataDelete(user, user.id)"
                     >
                       <i class="fas fa-edit"></i> Hapus
                     </button>
@@ -155,25 +156,28 @@
             <div class="modal-body">
               <div class="form-group">
                 <label for="kode">Kode</label>
-                <input type="text" name="kode" class="form-control" id="kode" value="PL101" />
-              </div>
-              <div class="form-group">
-                <label for="nama">Nama</label>
-                <input type="text" name="nama" class="form-control" id="nama" value="Mathias" />
-              </div>
-              <div class="form-group">
-                <label for="alamat">Alamat</label>
-                <textarea name="alamat" class="form-control" id="alamat" rows="3">Kelapa Gading</textarea>
+                <input type="text" class="form-control" id="kode" v-model="dataUbah.UID" />
               </div>
               <div class="form-group">
                 <label for="telepon">Telepon</label>
+                <input type="number" class="form-control" id="telepon" v-model="dataUbah.telepon" />
+              </div>
+              <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" v-model="dataUbah.username" />
+              </div>
+              <div class="form-group">
+                <label for="password">Password</label>
                 <input
-                  type="number"
-                  name="telepon"
+                  type="password"
                   class="form-control"
-                  id="telepon"
-                  value="08999000697"
+                  id="password"
+                  v-model="dataUbah.password"
                 />
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" v-model="dataUbah.email" />
               </div>
             </div>
             <div class="modal-footer">
@@ -181,7 +185,11 @@
                 <i class="fas fa-undo"></i>
                 Kembali
               </button>
-              <button type="button" class="btn btn-success">
+              <button
+                type="button"
+                class="btn btn-success"
+                @click="ubahUser(dataUbah, dataUbah.id)"
+              >
                 <i class="fas fa-edit"></i> Ubah
               </button>
             </div>
@@ -202,6 +210,14 @@ export default {
       user: [],
       apiToken: "",
       dataHapus: {},
+      dataUbah: {},
+      ubah: {
+        UID: "",
+        telepon: "",
+        username: "",
+        password: "",
+        email: ""
+      },
       user_id: ""
     };
   },
@@ -219,6 +235,23 @@ export default {
       });
   },
   methods: {
+    getUser(dataUbah) {
+      this.dataUbah = dataUbah;
+    },
+    ubahUser(dataUbah, id) {
+      this.ubah.UID = dataUbah.UID;
+      this.ubah.telepon = dataUbah.telepon;
+      this.ubah.username = dataUbah.username;
+      this.ubah.password = dataUbah.password;
+      this.ubah.email = dataUbah.email;
+      this.user_id = id;
+
+      axios.put("http://localhost:5000/api/user/" + this.user_id, this.ubah, {
+        headers: {
+          Authorization: "Bearer " + this.apiToken
+        }
+      });
+    },
     dataDelete(dataHapus, id) {
       this.dataHapus = dataHapus;
       this.user_id = id;

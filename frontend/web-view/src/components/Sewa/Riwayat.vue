@@ -38,7 +38,9 @@
                   <th scope="col">Nomor</th>
                   <th scope="col">Kode Transaksi</th>
                   <th scope="col">Status</th>
-                  <th scope="col">Aksi</th>
+                  <div v-if="dataRole == 'admin'">
+                    <th scope="col">Aksi</th>
+                  </div>
                 </tr>
               </thead>
               <tbody>
@@ -46,17 +48,19 @@
                   <th scope="row">{{ index + 1 }}</th>
                   <td>{{ riwayat.kode_transaksi }}</td>
                   <td v-if="riwayat.status_riwayat == 1">Selesai</td>
-                  <td>
-                    <button
-                      type="button"
-                      class="btn btn-danger"
-                      data-toggle="modal"
-                      data-target="#modalKonfirmasi"
-                      @click="dataHapusRiwayat(riwayat, riwayat.id)"
-                    >
-                      <i class="fas fa-edit"></i> Hapus
-                    </button>
-                  </td>
+                  <div v-if="dataRole == 'admin'">
+                    <td>
+                      <button
+                        type="button"
+                        class="btn btn-danger"
+                        data-toggle="modal"
+                        data-target="#modalKonfirmasi"
+                        @click="dataHapusRiwayat(riwayat, riwayat.id)"
+                      >
+                        <i class="fas fa-edit"></i> Hapus
+                      </button>
+                    </td>
+                  </div>
                 </tr>
               </tbody>
             </table>
@@ -138,10 +142,12 @@ export default {
       riwayat: [],
       apiToken: "",
       dataHapus: {},
-      riwayat_id: ""
+      riwayat_id: "",
+      dataRole: ""
     };
   },
   created() {
+    this.dataRole = localStorage.getItem("user-role");
     this.apiToken = localStorage.getItem("user-token");
 
     axios

@@ -23,15 +23,26 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <div class="navbar-nav">
-            <router-link to="/beranda" class="nav-item nav-link">Beranda</router-link>
-            <router-link to="/user" class="nav-item nav-link">Data User</router-link>
-            <router-link to="/mobil" class="nav-item nav-link">Data Mobil</router-link>
-            <router-link to="/sewa" class="nav-item nav-link">Data Sewa</router-link>
-            <router-link to="/transaksi" class="nav-item nav-link">Data Transaksi</router-link>
-            <router-link to="/riwayat" class="nav-item nav-link">Data Riwayat</router-link>
-            <router-link to="/supir" class="nav-item nav-link">Data Supir</router-link>
-            <router-link to="/staff" class="nav-item nav-link">Data Staff</router-link>
+          <div v-if="dataRole == 'admin'">
+            <div class="navbar-nav">
+              <router-link to="/beranda" class="nav-item nav-link">Beranda</router-link>
+              <router-link to="/user" class="nav-item nav-link">Data User</router-link>
+              <router-link to="/mobil" class="nav-item nav-link">Data Mobil</router-link>
+              <router-link to="/sewa" class="nav-item nav-link">Data Sewa</router-link>
+              <router-link to="/transaksi" class="nav-item nav-link">Data Transaksi</router-link>
+              <router-link to="/riwayat" class="nav-item nav-link">Data Riwayat</router-link>
+              <router-link to="/supir" class="nav-item nav-link">Data Supir</router-link>
+              <router-link to="/staff" class="nav-item nav-link">Data Staff</router-link>
+            </div>
+          </div>
+
+          <div v-else>
+            <div class="navbar-nav">
+              <router-link to="/beranda" class="nav-item nav-link">Beranda</router-link>
+              <router-link to="/sewa" class="nav-item nav-link">Data Sewa</router-link>
+              <router-link to="/transaksi" class="nav-item nav-link">Data Transaksi</router-link>
+              <router-link to="/riwayat" class="nav-item nav-link">Data Riwayat</router-link>
+            </div>
           </div>
         </div>
       </div>
@@ -40,4 +51,17 @@
     <slot></slot>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      dataRole: ""
+    };
+  },
+  created() {
+    this.dataRole = localStorage.getItem("user-role");
+  }
+};
+</script>
 

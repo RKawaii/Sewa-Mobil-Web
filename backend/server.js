@@ -15,6 +15,7 @@ const cors = require('cors');
 const auth = require('./middleware/auth');
 //mysql connection
 const admin = require('./conn/admin');
+const admin = require('./conn/staff');
 const user = require('./conn/user');
 
 //Express Route
@@ -23,7 +24,9 @@ const user = require('./conn/user');
 Route.post('/login', validator.body(schema.login), function(req, res) {
   if (req.body.role === 'admin') {
     admin.login(req, res);
-  } else if (req.body.role === 'user') {
+  } else if(req.body.role === 'staff'){
+	  staff.login(req, res);
+  }else {
     user.login(req, res);
   }
 });
@@ -109,7 +112,7 @@ Route.get('/sewa/:id', validator.params(schema.id), auth, function(req, res) {
 });
 Route.post('/sewa', validator.body(schema.sewa), auth, function(req, res) {
   if (req.userData.role === 'user') {
-    user.sewa(req, res);
+    user.add(req, res);
   } else {
     res.sendStatus(403);
   }

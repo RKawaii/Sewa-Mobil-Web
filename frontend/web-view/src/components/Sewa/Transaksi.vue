@@ -47,7 +47,7 @@
                   <td>{{ transaksi.kode_transaksi }}</td>
                   <td v-if="transaksi.status_transaksi == '0'">Belum Lunas</td>
                   <td v-else>Lunas</td>
-                  <td>
+                  <td v-if="dataRole == 'admin'">
                     <button
                       type="button"
                       class="btn btn-info"
@@ -57,7 +57,7 @@
                     >
                       <i class="fas fa-info"></i> Detail
                     </button>
-                    <template v-if="transaksi.status_transaksi == '0'">
+                    <div v-if="transaksi.status_transaksi == '0'">
                       <button
                         type="button"
                         class="btn btn-success ml-2"
@@ -67,8 +67,8 @@
                       >
                         <i class="fas fa-check"></i> Selesaikan
                       </button>
-                    </template>
-                    <template v-else>
+                    </div>
+                    <div v-else>
                       <button
                         type="button"
                         class="btn btn-success ml-2"
@@ -77,7 +77,40 @@
                       >
                         <i class="fas fa-check"></i> Selesaikan
                       </button>
-                    </template>
+                    </div>
+                  </td>
+
+                  <td v-else>
+                    <button
+                      type="button"
+                      class="btn btn-info"
+                      data-toggle="modal"
+                      data-target="#modalDetail1"
+                      @click="detailTrans(transaksi, transaksi.id)"
+                    >
+                      <i class="fas fa-info"></i> Detail
+                      <div v-if="transaksi.status_transaksi == '0'">
+                        <button
+                          type="button"
+                          class="btn btn-success ml-2"
+                          data-toggle="modal"
+                          data-target="#modalSelesaikan"
+                          disabled
+                        >
+                          <i class="fas fa-check"></i> Validasi
+                        </button>
+                      </div>
+                      <div v-else>
+                        <button
+                          type="button"
+                          class="btn btn-success ml-2"
+                          data-toggle="modal"
+                          data-target="#modalSelesaikan"
+                        >
+                          <i class="fas fa-check"></i> Validasi
+                        </button>
+                      </div>
+                    </button>
                   </td>
                 </tr>
               </tbody>
@@ -177,10 +210,12 @@ export default {
       transaksi: [],
       apiToken: "",
       dataDetailTrans: {},
-      trans_id: ""
+      trans_id: "",
+      dataRole: ""
     };
   },
   created() {
+    this.dataRole = localStorage.getItem("user-role");
     this.apiToken = localStorage.getItem("user-token");
 
     axios
