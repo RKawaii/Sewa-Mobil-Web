@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 4.8.4
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Aug 29, 2019 at 01:04 AM
--- Server version: 8.0.16
--- PHP Version: 7.2.19
+-- Host: 127.0.0.1
+-- Waktu pembuatan: 30 Agu 2019 pada 12.40
+-- Versi server: 10.1.37-MariaDB
+-- Versi PHP: 7.2.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -25,7 +25,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `admin`
+-- Struktur dari tabel `admin`
 --
 
 CREATE TABLE `admin` (
@@ -35,7 +35,7 @@ CREATE TABLE `admin` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `admin`
+-- Dumping data untuk tabel `admin`
 --
 
 INSERT INTO `admin` (`id`, `username`, `password`) VALUES
@@ -44,7 +44,7 @@ INSERT INTO `admin` (`id`, `username`, `password`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `jenis_kendaraan`
+-- Struktur dari tabel `jenis_kendaraan`
 --
 
 CREATE TABLE `jenis_kendaraan` (
@@ -53,123 +53,115 @@ CREATE TABLE `jenis_kendaraan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `jenis_kendaraan`
+-- Dumping data untuk tabel `jenis_kendaraan`
 --
 
 INSERT INTO `jenis_kendaraan` (`id`, `jenis_mobil`) VALUES
-(1, 'asdasd');
+(1, 'Ayla'),
+(2, 'Avanza'),
+(3, 'Inova'),
+(4, 'Alphard'),
+(5, 'Jazz'),
+(6, 'Forturner');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mobil`
+-- Struktur dari tabel `mobil`
 --
 
 CREATE TABLE `mobil` (
   `id` int(11) NOT NULL,
   `id_jenis_mobil` int(11) NOT NULL,
   `plat` varchar(10) NOT NULL,
-  `banyak_penumpang` int(11) NOT NULL,
-  `harga` int(100) NOT NULL,
-  `status` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT 'available'
+  `kursi` int(11) NOT NULL,
+  `harga` int(11) NOT NULL,
+  `status` varchar(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `mobil`
+-- Dumping data untuk tabel `mobil`
 --
 
-INSERT INTO `mobil` (`id`, `id_jenis_mobil`, `plat`, `banyak_penumpang`, `harga`, `status`) VALUES
-(5, 1, 'asd', 12, 23333, 'available');
+INSERT INTO `mobil` (`id`, `id_jenis_mobil`, `plat`, `kursi`, `harga`, `status`) VALUES
+(10, 3, 'HJHJHJ', 4, 400000, '0'),
+(11, 2, 'BHJUKEF', 4, 40000, '1');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `riwayat_penyewaan`
+-- Struktur dari tabel `riwayat_penyewaan`
 --
 
 CREATE TABLE `riwayat_penyewaan` (
   `id` int(11) NOT NULL,
   `id_transaksi` int(11) NOT NULL,
-  `status_riwayat` varchar(30) NOT NULL
+  `status_riwayat` varchar(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `riwayat_penyewaan`
---
-
-INSERT INTO `riwayat_penyewaan` (`id`, `id_transaksi`, `status_riwayat`) VALUES
-(2, 2, 'aaa');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sewa`
+-- Struktur dari tabel `sewa`
 --
 
 CREATE TABLE `sewa` (
   `id` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
   `id_jenis_mobil` int(11) NOT NULL,
-  `penggunaan_supir` tinyint(1) NOT NULL,
-  `mulai_sewa` datetime NOT NULL,
-  `akhir_sewa` datetime NOT NULL,
-  `lokasi_pickup` varchar(200) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `lokasi_destinasi` varchar(200) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL
+  `penggunaan_supir` int(1) NOT NULL,
+  `mulai_sewa` date NOT NULL,
+  `akhir_sewa` date NOT NULL,
+  `lokasi_pickup` varchar(200) NOT NULL,
+  `lokasi_destinasi` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `sewa`
+-- Dumping data untuk tabel `sewa`
 --
 
 INSERT INTO `sewa` (`id`, `id_user`, `id_jenis_mobil`, `penggunaan_supir`, `mulai_sewa`, `akhir_sewa`, `lokasi_pickup`, `lokasi_destinasi`) VALUES
-(2, 1, 1, 1, '2019-08-20 00:00:00', '2019-08-24 00:00:00', 'adasd', 'asdadsad');
+(1, 1, 1, 1, '2019-08-13', '2019-08-30', 'Jakarta', 'Bekasi');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `staff`
+-- Struktur dari tabel `staff`
 --
 
 CREATE TABLE `staff` (
   `id` int(11) NOT NULL,
-  `kode_staff` varchar(10) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `kode_staff` varchar(10) NOT NULL,
   `nama_staff` varchar(30) NOT NULL,
-  `username` varchar(100) NOT NULL,
-  `password` varchar(100) NOT NULL
+  `username` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `staff`
---
-
-INSERT INTO `staff` (`id`, `kode_staff`, `nama_staff`, `username`, `password`) VALUES
-(1, 'asda', 'asdasd', 'asdasda', 'adasda');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `supir`
+-- Struktur dari tabel `supir`
 --
 
 CREATE TABLE `supir` (
   `id` int(11) NOT NULL,
-  `nama` varchar(200) NOT NULL,
-  `alamat` varchar(200) NOT NULL,
-  `telepon` varchar(200) NOT NULL,
-  `status` varchar(200) NOT NULL
+  `nama` varchar(20) NOT NULL,
+  `alamat` varchar(100) NOT NULL,
+  `telepon` varchar(15) NOT NULL,
+  `status` varchar(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `supir`
+-- Dumping data untuk tabel `supir`
 --
 
 INSERT INTO `supir` (`id`, `nama`, `alamat`, `telepon`, `status`) VALUES
-(1, 'asdad', 'BG34D', '53234234', '2sada');
+(3, 'Alvin Andreas', 'Jakarta', '0923525', '0');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `transaksi`
+-- Struktur dari tabel `transaksi`
 --
 
 CREATE TABLE `transaksi` (
@@ -177,72 +169,70 @@ CREATE TABLE `transaksi` (
   `kode_transaksi` varchar(5) NOT NULL,
   `id_sewa` int(11) NOT NULL,
   `biaya` int(12) NOT NULL,
-  `status_transaksi` varchar(30) NOT NULL
+  `status_transaksi` varchar(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `transaksi`
+-- Dumping data untuk tabel `transaksi`
 --
 
 INSERT INTO `transaksi` (`id`, `kode_transaksi`, `id_sewa`, `biaya`, `status_transaksi`) VALUES
-(2, 'ad', 2, 20000, 'asd');
+(1, 'TR101', 1, 450000, '0');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user`
+-- Struktur dari tabel `user`
 --
 
 CREATE TABLE `user` (
   `id` int(11) NOT NULL,
-  `UID` varchar(255) NOT NULL,
-  `telepon` varchar(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
-  `alamat` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
+  `UID` varchar(10) NOT NULL,
+  `telepon` varchar(15) NOT NULL,
   `username` varchar(30) NOT NULL,
-  `password` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
-  `email` varchar(40) NOT NULL
+  `password` varchar(255) NOT NULL,
+  `email` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `user`
+-- Dumping data untuk tabel `user`
 --
 
-INSERT INTO `user` (`id`, `UID`, `telepon`, `alamat`, `username`, `password`, `email`) VALUES
-(1, 'dasdadasda', '123445', '', 'rento', '123', 'dddd@dd.com'),
-(2, 'asdad', '53234234', 'BG34D', 'qwert', '81dc9bdb52d04dc20036dbd8313ed055', 'asd@asd.com');
+INSERT INTO `user` (`id`, `UID`, `telepon`, `username`, `password`, `email`) VALUES
+(1, 'er12', '123445', 'rento', '123', 'dddd@dd.com');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `admin`
+-- Indeks untuk tabel `admin`
 --
 ALTER TABLE `admin`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `jenis_kendaraan`
+-- Indeks untuk tabel `jenis_kendaraan`
 --
 ALTER TABLE `jenis_kendaraan`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `mobil`
+-- Indeks untuk tabel `mobil`
 --
 ALTER TABLE `mobil`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_jenis_mobil` (`id_jenis_mobil`);
 
 --
--- Indexes for table `riwayat_penyewaan`
+-- Indeks untuk tabel `riwayat_penyewaan`
 --
 ALTER TABLE `riwayat_penyewaan`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_transaksi` (`id_transaksi`);
 
 --
--- Indexes for table `sewa`
+-- Indeks untuk tabel `sewa`
 --
 ALTER TABLE `sewa`
   ADD PRIMARY KEY (`id`),
@@ -250,117 +240,116 @@ ALTER TABLE `sewa`
   ADD KEY `id_mobil` (`id_jenis_mobil`);
 
 --
--- Indexes for table `staff`
+-- Indeks untuk tabel `staff`
 --
 ALTER TABLE `staff`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `supir`
+-- Indeks untuk tabel `supir`
 --
 ALTER TABLE `supir`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `transaksi`
+-- Indeks untuk tabel `transaksi`
 --
 ALTER TABLE `transaksi`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_sewa` (`id_sewa`);
 
 --
--- Indexes for table `user`
+-- Indeks untuk tabel `user`
 --
 ALTER TABLE `user`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email` (`email`);
+  ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT untuk tabel yang dibuang
 --
 
 --
--- AUTO_INCREMENT for table `admin`
+-- AUTO_INCREMENT untuk tabel `admin`
 --
 ALTER TABLE `admin`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `jenis_kendaraan`
+-- AUTO_INCREMENT untuk tabel `jenis_kendaraan`
 --
 ALTER TABLE `jenis_kendaraan`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT untuk tabel `mobil`
+--
+ALTER TABLE `mobil`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT untuk tabel `riwayat_penyewaan`
+--
+ALTER TABLE `riwayat_penyewaan`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT untuk tabel `sewa`
+--
+ALTER TABLE `sewa`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `mobil`
---
-ALTER TABLE `mobil`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT for table `riwayat_penyewaan`
---
-ALTER TABLE `riwayat_penyewaan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `sewa`
---
-ALTER TABLE `sewa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `staff`
+-- AUTO_INCREMENT untuk tabel `staff`
 --
 ALTER TABLE `staff`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `supir`
+-- AUTO_INCREMENT untuk tabel `supir`
 --
 ALTER TABLE `supir`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT untuk tabel `transaksi`
+--
+ALTER TABLE `transaksi`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `transaksi`
---
-ALTER TABLE `transaksi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `user`
+-- AUTO_INCREMENT untuk tabel `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- Constraints for dumped tables
+-- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
 --
 
 --
--- Constraints for table `mobil`
+-- Ketidakleluasaan untuk tabel `mobil`
 --
 ALTER TABLE `mobil`
-  ADD CONSTRAINT `mobil_ibfk_1` FOREIGN KEY (`id_jenis_mobil`) REFERENCES `jenis_kendaraan` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+  ADD CONSTRAINT `mobil_ibfk_1` FOREIGN KEY (`id_jenis_mobil`) REFERENCES `jenis_kendaraan` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `riwayat_penyewaan`
+-- Ketidakleluasaan untuk tabel `riwayat_penyewaan`
 --
 ALTER TABLE `riwayat_penyewaan`
-  ADD CONSTRAINT `riwayat_penyewaan_ibfk_1` FOREIGN KEY (`id_transaksi`) REFERENCES `transaksi` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+  ADD CONSTRAINT `riwayat_penyewaan_ibfk_1` FOREIGN KEY (`id_transaksi`) REFERENCES `transaksi` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `sewa`
+-- Ketidakleluasaan untuk tabel `sewa`
 --
 ALTER TABLE `sewa`
-  ADD CONSTRAINT `sewa_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
-  ADD CONSTRAINT `sewa_ibfk_2` FOREIGN KEY (`id_jenis_mobil`) REFERENCES `jenis_kendaraan` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+  ADD CONSTRAINT `sewa_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `sewa_ibfk_2` FOREIGN KEY (`id_jenis_mobil`) REFERENCES `jenis_kendaraan` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `transaksi`
+-- Ketidakleluasaan untuk tabel `transaksi`
 --
 ALTER TABLE `transaksi`
-  ADD CONSTRAINT `transaksi_ibfk_1` FOREIGN KEY (`id_sewa`) REFERENCES `sewa` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+  ADD CONSTRAINT `transaksi_ibfk_1` FOREIGN KEY (`id_sewa`) REFERENCES `sewa` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
