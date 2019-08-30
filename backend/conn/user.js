@@ -21,7 +21,7 @@ module.exports = {
     const { body } = req;
 
     connection.execute(
-      'SELECT password FROM user where email=?',
+      'SELECT * FROM user where email=?',
       [body.username],
       (err, results) => {
         if (err) {
@@ -71,7 +71,7 @@ module.exports = {
     switch (path) {
       case '/mobil':
         sql =
-          'SELECT mobil.id AS main_id, mobil.*,jenis_kendaraan.* FROM mobil JOIN jenis_kendaraan  ON mobil.id_jenis_mobil = jenis_kendaraan.id ';
+          'SELECT mobil.id AS main_id, mobil.*,jenis_kendaraan.* FROM mobil JOIN jenis_kendaraan ON mobil.id_jenis_mobil = jenis_kendaraan.id ';
         srcby = 'plat';
         thru = true;
         break;
@@ -156,10 +156,10 @@ module.exports = {
         break;
       case '/sewa':
         sql =
-          'INSERT INTO `sewa`(`id_user`, `id_jenis_mobil`, `penggunaan_supir`, `mulai_sewa`, `akhir_sewa`, `lokasi_pickup`, `lokasi_destinasi`) VALUES (?,?,?,DATETIME(?),DATETIME(?),?,?)';
+          'INSERT INTO `sewa`(`id_user`, `id_jenis_mobil`, `penggunaan_supir`, `mulai_sewa`, `akhir_sewa`, `lokasi_pickup`, `lokasi_destinasi`) VALUES (?,?,?,?,?,?,?)';
         val = [
           req.userData.id,
-          body.id_jenis,
+          body.id_jenis_mobil,
           body.penggunaan_supir,
           body.mulai_sewa,
           body.akhir_sewa,
@@ -210,8 +210,8 @@ module.exports = {
         sql =
           'UPDATE `sewa` SET `id_user`=?,`id_jenis_mobil`=?,`penggunaan_supir`=?,`mulai_sewa`=?,`akhir_sewa`=?,`lokasi_pickup`=?,`lokasi_destinasi`=? WHERE `id`=?';
         val = [
-          body.req.userData.id,
-          body.id_jenis,
+          req.userData.id,
+          body.id_jenis_mobil,
           body.penggunaan_supir,
           body.mulai_sewa,
           body.akhir_sewa,
@@ -219,6 +219,7 @@ module.exports = {
           body.lokasi_destinasi,
           req.params.id
         ];
+
         pass = true;
         break;
       case '/transaksi/:id':

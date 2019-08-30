@@ -99,6 +99,8 @@ Route.get('/sewa', validator.query(schema.getting), auth, function(req, res) {
   }
 });
 Route.get('/sewa/:id', validator.params(schema.id), auth, function(req, res) {
+  console.log(req.userData);
+
   if (req.userData.role === 'admin') {
     admin.get(req, res);
   } else if (req.userData.role === 'user') {
@@ -424,7 +426,7 @@ Route.get('/jenis/:id', validator.params(schema.id), auth, function(req, res) {
     res.sendStatus(403);
   }
 });
-Route.post('/jenis', validator.body(schema.mobil), auth, function(req, res) {
+Route.post('/jenis', validator.body(schema.jenis), auth, function(req, res) {
   if (req.userData.role === 'admin') {
     admin.add(req, res);
   } else {
@@ -433,7 +435,7 @@ Route.post('/jenis', validator.body(schema.mobil), auth, function(req, res) {
 });
 Route.put(
   '/jenis/:id',
-  validator.body(schema.mobil),
+  validator.body(schema.jenis),
   validator.params(schema.id),
   auth,
   function(req, res) {
