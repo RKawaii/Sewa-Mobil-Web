@@ -41,7 +41,7 @@ module.exports = {
               } else {
                 const token = jwt.sign(
                   {
-                    role: 'admin',
+                    role: 'staff',
                     id: results.id
                   },
                   keys,
